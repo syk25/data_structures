@@ -48,7 +48,7 @@ int main() {
     // 글자가 없으면 if로 아예 수행을 안하도록 처리 가능
     assert(n >= 1);
 
-    cout << arr << endl;
+    cout << arr << endl; // 문자열 출력
 
     // 풀이 1. 모든 알파벳에 대해서 Count()
     // 힌트: 소문자 알파벳 'a'~'z'는 int로는 97~122에 대응
@@ -62,16 +62,16 @@ int main() {
 
         // 표를 만들고 나중에 몰아서 출력하는 방법
         // table[i] = ...
-
         // 표를 만들지 않고 직접 출력하는 방법
         // ...
+        table[i] = Count(arr, n, char(i + 97));
     }
 
     cout << endl;
 
     // 출력
     for (int i = 0; i < 26; i++) {
-        // ...
+        if(table[i] > 0) cout << char(i + 97) << table[i];
     }
     cout << endl << endl;
 
@@ -79,7 +79,7 @@ int main() {
     // 여기서는 별도의 문자열을 만드는 것이 아니라 출력이 목표
     // Table도 만들지 않음
 
-    InsertionSort(arr, n);
+    InsertionSort(arr, n); // 문자열 정렬 들어감
 
     cout << arr << endl;
 
@@ -91,8 +91,13 @@ int main() {
     for (int i = 1; i < n; i++) {
         if (arr[i] == c) {
             // TODO: ...
+            count++;
         } else {
             // TODO: ...
+            cout << count;
+            count = 1;
+            c = arr[i];
+            cout << c;
         }
     }
 
