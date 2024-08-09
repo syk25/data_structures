@@ -2,39 +2,33 @@
 
 using namespace std;
 
-void Func2()
-{
-	cout << "This is Func2()" << endl;
+void Func2() { cout << "This is Func2()" << endl; }
+
+void Func1() {
+    Func2();
+
+    cout << "This is Func1()" << endl;
+
+    // Func2(); // 실행 순서에 따른 결과 확인
 }
 
-void Func1()
-{
-	Func2();
+void RecurFunc(int count) {
+    if (count == 0) // <- 종료 조건
+        return;
 
-	cout << "This is Func1()" << endl;
+    // RecurFunc(count - 1); // <- 변경
 
-	// Func2(); // 실행 순서에 따른 결과 확인
+    cout << count << endl;
+
+    RecurFunc(count - 1); // <- 변경
+
+    // 실행 위치에 따라 결과가 달라집니다.
 }
 
-void RecurFunc(int count)
-{
-	if (count == 0) // <- 종료 조건
-		return;
+int main() {
+    // Func1(); // 이름이 다른 함수 호출
 
-	// RecurFunc(count - 1); // <- 변경
+    RecurFunc(5); // 이름이 같은 함수 호출
 
-	cout << count << endl;
-
-	RecurFunc(count - 1); // <- 변경
-
-	// 실행 위치에 따라 결과가 달라집니다.
-}
-
-int main()
-{
-	// Func1(); // 이름이 다른 함수 호출
-
-	RecurFunc(5); // 이름이 같은 함수 호출
-
-	return 0;
+    return 0;
 }
