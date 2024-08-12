@@ -7,12 +7,14 @@
 using namespace std;
 using namespace std::chrono;
 
+/* 배열 원소 모두 공백을 두고 출력 */
 void Print(int *arr, int size) {
     for (int i = 0; i < size; i++)
         cout << arr[i] << " ";
     cout << endl;
 }
 
+/* 배열의 원소들을 무작위로 재배치 */
 void ShuffleArray(int arr[], int n) {
     for (int i = n - 1; i > 0; i--) {
         int j = rand() % (i + 1);
@@ -20,6 +22,7 @@ void ShuffleArray(int arr[], int n) {
     }
 }
 
+/* 배열에서 원소 선형탐색 */
 int SequentialSearch(int *arr, int n, int x) {
     int i;
     for (i = 0; i < n && arr[i] != x; i++)
@@ -30,6 +33,7 @@ int SequentialSearch(int *arr, int n, int x) {
         return i;
 }
 
+/* 이진탐색 */
 int BinarySearch(int *arr, int n, int x) {
     int left = 0;
     int right = n - 1;
