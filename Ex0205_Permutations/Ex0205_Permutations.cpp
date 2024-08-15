@@ -17,7 +17,19 @@ void RecurPermutations(char *arr, int left, int right) {
         // - 같은 변수끼리도 swap() 가능
         // - right는 고정
 
-        // TODO:
+        /**
+         * 반복문: 난 초반에 i =0 부터 i < right 까지 돌리려고 했다. 그런데 i를 left와 연관시키지 않아서 원하는 과정이 되지 않았다.
+         * 
+         */
+        // REVIEW:
+        for(int i = left; i <= right; i++){ // 반복범위를 정함: 자리를 바꾸는 값을 기준으로 할 때 left, right로 해야 함
+            swap(arr[left], arr[i]); // 고정되는 값 정하기
+            RecurPermutations(arr, left + 1, right); // 순열하는 데이터의 크기를 하나 줄여서 재귀호출
+            swap(arr[left], arr[i]); // 본래상태로 복귀
+        }
+        
+        
+        
     }
 }
 
