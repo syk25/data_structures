@@ -19,8 +19,7 @@ int main() {
         cout << "Found at " << MyString("ABCDEF").Find(MyString("CDE")) << endl;
         cout << "Found at " << MyString("ABCDEF").Find(MyString("EF")) << endl;
         cout << "Found at " << MyString("ABCDEF").Find(MyString("EFG")) << endl;
-        cout << "Found at " << MyString("ABCDEF").Find(MyString("EFGHIJ"))
-             << endl;
+        cout << "Found at " << MyString("ABCDEF").Find(MyString("EFGHIJ")) << endl;
     }
 
     // 복사 생성자
