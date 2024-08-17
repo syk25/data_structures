@@ -6,6 +6,7 @@
 
 using namespace std;
 
+/* 다항식 생성자 */
 Polynomial::Polynomial(int max_degree) // 편의상 기본값 사용
 {
     assert(max_degree > 0);
@@ -22,6 +23,7 @@ Polynomial::Polynomial(int max_degree) // 편의상 기본값 사용
         coeffs_[i] = 0.0f;
 }
 
+/* 복제 생성자 */
 Polynomial::Polynomial(const Polynomial &poly) {
     this->capacity_ = poly.capacity_;
     coeffs_ = new float[capacity_];
@@ -29,19 +31,23 @@ Polynomial::Polynomial(const Polynomial &poly) {
         coeffs_[i] = poly.coeffs_[i];
 }
 
+/* 소멸자 */
 Polynomial::~Polynomial() {
     if (coeffs_)
         delete[] coeffs_;
 }
 
+/* 최대차수 반환 */
 int Polynomial::MaxDegree() { return this->capacity_ - 1; }
 
+/* 새로운 항 추가 */
 void Polynomial::NewTerm(const float coef, const int exp) {
     assert(exp < capacity_); // exp가 너무 크면 resize 하도록 구현할 수도 있음
 
     // TODO: 쉬워요
 }
 
+/* 덧셈 연산 */
 Polynomial Polynomial::Add(const Polynomial &poly) {
     assert(poly.capacity_ == this->capacity_); // 문제를 단순화하기 위한 가정
 
@@ -52,6 +58,7 @@ Polynomial Polynomial::Add(const Polynomial &poly) {
     return temp;
 }
 
+/* 곱셈 연산 */
 Polynomial Polynomial::Mult(const Polynomial &poly) {
     assert(poly.capacity_ == this->capacity_); // 문제를 단순화하기 위한 가정
 
@@ -64,6 +71,7 @@ Polynomial Polynomial::Mult(const Polynomial &poly) {
     return temp;
 }
 
+/* 값 평가 */
 float Polynomial::Eval(float x) {
     float temp = 0.0f;
 
@@ -73,6 +81,7 @@ float Polynomial::Eval(float x) {
     return temp;
 }
 
+/* 다항식 출력 */
 void Polynomial::Print() {
     bool is_first = true; // 더하기 출력시 확인용
 
