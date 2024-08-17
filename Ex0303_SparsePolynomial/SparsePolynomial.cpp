@@ -10,10 +10,12 @@ using namespace std;
 
 // exp항이 이미 존재하면 거기에 coef를 더해준다.
 // 존재하지 않는다면 exp 오름 차순으로 정렬된 상태로 새로 추가한다.
+/* 새로운 항 추가 */
 void SparsePolynomial::NewTerm(float coef, int exp) {
     if (coef == 0.0f)
         return; // 0이면 추가하지 않음
 
+    // 항의 갯수가 용량보다 많은 경우
     if (num_terms_ >= capacity_) {
         // capacity 증가 (num_terms는 일단 고정)
         capacity_ = capacity_ > 0 ? capacity_ * 2 : 1; // 2배씩 증가
@@ -34,10 +36,14 @@ void SparsePolynomial::NewTerm(float coef, int exp) {
     num_terms_++;
 }
 
+/* 값 계산 */
 float SparsePolynomial::Eval(float x) {
     float temp = 0.0f;
 
-    // TODO:
+    // REVIEW:
+    for(int i = 0; i < num_terms_; i++){
+        temp += terms_[i].coef * powf(x, terms_[i].exp);
+    }
 
     return temp;
 }
@@ -56,6 +62,16 @@ SparsePolynomial SparsePolynomial::Add(const SparsePolynomial &poly) {
     SparsePolynomial temp;
 
     // TODO:
+    temp.num_terms_ = this->num_terms_ + poly.num_terms_;
+    temp.capacity_ = temp.num_terms_ * 2;
+
+    temp.terms_ = new Term[temp.capacity_];
+
+    int thisIndex = 0;
+    int polyIndex = 0;
+    while(!(thisIndex > this->num_terms_ && polyIndex > poly.num_terms_)){
+        
+    }
 
     return temp;
 }

@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+/* 구조체 선언 */
 struct Term {
     float coef;
     int exp;
@@ -7,10 +8,12 @@ struct Term {
 
 class SparsePolynomial {
   public:
+    /* 생성자 */
     SparsePolynomial() {
         // 아무것도 하지 않음 (동적할당 메모리 없이 시작)
     }
 
+    /* 제거자 */
     ~SparsePolynomial() {
         if (terms_)
             delete[] terms_;
