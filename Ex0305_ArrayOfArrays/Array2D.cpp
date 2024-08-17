@@ -7,26 +7,43 @@
 using namespace std;
 
 Array2D::Array2D(int num_rows, int num_cols) {
-    // TODO:
+    // REVIEW:
+    num_rows_ = num_rows;
+    num_cols_ = num_cols;
+    
+    arrays_ = new float*[num_rows_]; // 포인터의 배열
+
+    for(int r = 0; r < num_rows_; r++){
+        arrays_[r] = new float[num_cols_]; // 값의 배열
+    }
 }
 
 // 복사 생성자 (b를 복사)
 Array2D::Array2D(const Array2D &b) {
-    // TODO:
+    // REVIEW:
+
+    Array2D temp(b.num_rows_, b.num_cols_);
+    for(int r = 0; r < b.num_rows_; r++){
+        for(int c = 0; c < b.num_cols_; c++){
+            this->SetValue(r, c, b.arrays_[r][c]);
+        }
+    }
 }
 
 Array2D::~Array2D() {
-    // TODO:
+    // REVIEW:
+    delete []arrays_;
 }
 
 void Array2D::SetValue(int row, int col, float value) {
-    // TODO:
+    // REVIEW:
+    arrays_[row][col] = value;
 }
 
 float Array2D::GetValue(int row, int col)
     const // 맨 뒤의 const는 함수 안에서 멤버 변수의 값을 바꾸지 않겠다는 의미
 {
-    return 0.0f; // TODO:
+    return this->arrays_[row][col];
 }
 
 Array2D Array2D::Transpose() {
