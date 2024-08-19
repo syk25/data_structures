@@ -8,36 +8,36 @@ int main() {
     // 일종의 가방(bag), 컨테이너(container)
     // LIFO(Last-In-First-Out)
 
-    Stack<char> s;
+    Stack<char> s; // 스택의 원소 자료형: char
 
     s.Push('A');
-    s.Print();
+    s.Print(); // A
 
     s.Push('B');
-    s.Print();
+    s.Print(); // A B
 
     s.Push('C');
-    s.Print();
+    s.Print(); // A B C
 
-    cout << "Top = " << s.Top() << endl;
+    cout << "Top = " << s.Top() << endl; // C : 가장 위에 있는 원소 반환
 
-    s.Pop();
-    s.Print();
+    s.Pop(); // 가장 위 원소(C) 제거
+    s.Print(); // A B
 
-    cout << "Top = " << s.Top() << endl;
+    cout << "Top = " << s.Top() << endl; // B
 
-    s.Pop();
-    s.Print();
+    s.Pop(); // B 제거
+    s.Print(); // A
 
     s.Push('E');
-    s.Print();
+    s.Print(); // A E
 
-    s.Pop();
-    s.Print();
+    s.Pop(); 
+    s.Print(); // A
 
-    cout << "Top = " << s.Top() << endl;
+    cout << "Top = " << s.Top() << endl; // A
 
-    s.Pop();
+    s.Pop(); // 빈 스택
 
     // cout << "Top = " << s.Top() << endl; // 비었을 때 Top() 불가
 
