@@ -43,24 +43,30 @@ int main() {
 
     // 다른 자료형의 stack도 쉽게 만들 수 있어요.
     {
-        // Stack<int> int_stack;
-        // int_stack.Push(123);
-        // cout << int_stack.Top() << endl;
-        // int_stack.Top();
+        Stack<int> int_stack;
+        int_stack.Push(123);
+        cout << int_stack.Top() << endl;
+        int_stack.Top();
     }
 
     // 문자열 순서 뒤집어서 출력하기 (스택 사용하기 연습)
     {
-        // const char str[] = "Hello, World!";
-        // const int size = sizeof(str) - 1; // 마지막 '\0' 제외
+        const char str[] = "Hello, World!";
+        const int size = sizeof(str) - 1; // 마지막 '\0' 제외
 
-        // cout << "Input: " << str << endl;
+        cout << "Input: " << str << endl;
 
-        // Stack<char> stack;
+        Stack<char> stack;
+        for(int i = 0; i < size; i++){
+            stack.Push(str[i]);
+        }
 
-        //// TODO:
-
-        // cout << endl;
+        // TODO:
+        for(int i = stack.Size() - 1; i >= 0; i--){
+            cout << stack.Top();
+            stack.Pop();
+        }
+        cout << endl;
     }
 
     return 0;

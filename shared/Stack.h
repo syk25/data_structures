@@ -3,8 +3,7 @@
 #include <cassert>
 #include <iostream>
 
-template <typename T> // 템플릿 사용
-class Stack {
+template <typename T> class Stack {
   public:
     Stack(int capacity = 1) {
         assert(capacity > 0);
@@ -25,16 +24,19 @@ class Stack {
         capacity_ = new_capacity;
     }
 
+    // NOTE: const의 역할
     bool IsEmpty() const {
-        return false; // TODO:
+        if (top_ == -1) {
+            return true;
+        }
+        return false;
     }
 
-    int Size() const {
-        return 0; // TODO:
-    }
+    // NOTE: const의 역할
+    int Size() const { return top_ + 1; }
 
     void Print() {
-        using namespace std;
+        using namespace std; // NOTE: 해당코드가 함수 내에서도 쓰이네?
 
         for (int i = 0; i < Size(); i++) // Size() 사용
             cout << stack_[i] << " ";
@@ -50,20 +52,24 @@ class Stack {
 
     // Insert item into the TOP of the stack
     void Push(const T &item) {
-        // TODO: 필요하면 리사이즈
 
-        // TODO:
+        if (top_ + 1 == capacity_) {
+            Resize(2 * capacity_);
+        }
+
+        stack_[top_ + 1] = item;
+        top_ += 1;
     }
 
     // Delete the TOP element of the stack
     void Pop() {
         assert(!IsEmpty());
 
-        // TODO:
+        top_ -= 1;
     }
 
   protected: // 뒤에서 상속해서 사용
     T *stack_ = nullptr;
-    int top_ = -1; // 0 아님
+    int top_ = -1; // 0 아님 - 가장 마지막에 추가 된 원소의 인덱스
     int capacity_ = 0;
 };
