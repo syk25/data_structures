@@ -86,11 +86,34 @@ class Queue           // Circular Queue
         // TODO: 하나하나 복사하는 방식은 쉽게 구현할 수 있습니다.
         //       (도전) 경우를 나눠서 memcpy()로 블럭 단위로 복사하면 더 효율적입니다.
 
-        /* 동작과정
-        1. 크기가 꽉 찼는지 확인
-        2. 꽉 안찼으면 -1 반환 또는 오류임을 로그로 띄우고 중단하거나 해당위치 보여주기
-        3. 꽉 찼으면 1) 메모리 생성 2) front < rear 3) front > rear
-         */
+        T *temp = new T[capacity_*2];
+        if (front_ < rear_) {
+
+            for (int i = 1; i <= rear_; i++){
+                temp[i] = queue_[i];
+            }
+
+        } else if (front_ > rear_) {
+            // rear 이전에 저장된 내용물
+            for (int i = 0; i <= rear_; i++)
+                temp[capacity_ - 1 + i] = queue_[i];
+
+            // front 뒤 내용물
+            for (int i = front_ + 1; i < capacity_; i++)
+                temp[i - front_] = queue_[i];
+
+            cout << endl << endl;
+        } else // 비었을 경우
+        {
+            for (int i = 0; i < capacity_; i++)
+                cout << " - ";
+            cout << endl << endl;
+        }
+
+        rear_ = capacity_ - 1;
+        capacity_ *= 2;
+        front_ = 0;
+        
     }
 
     void Enqueue(const T &item) // 맨 뒤에 추가, Push()
