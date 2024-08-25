@@ -74,6 +74,8 @@ class Queue           // Circular Queue
         }
     }
 
+    /* 크기 재조정 */
+    // NOTE: 원형큐에서 구현하기 가장 까다로운 부분
     void Resize() // 2배씩 증가
     {
         // 조언
@@ -92,11 +94,11 @@ class Queue           // Circular Queue
             for (int i = 1; i <= rear_; i++) {
                 temp[i] = queue_[i];
             }
-
+            cout << endl << endl;
         } else if (front_ > rear_) {
             // rear 이전에 저장된 내용물
             for (int i = 0; i <= rear_; i++)
-                temp[capacity_ - 1 + i] = queue_[i];
+                temp[capacity_ - front_ + i] = queue_[i];
 
             // front 뒤 내용물
             for (int i = front_ + 1; i < capacity_; i++)
@@ -109,7 +111,7 @@ class Queue           // Circular Queue
                 cout << " - ";
             cout << endl << endl;
         }
-
+        queue_ = temp;
         rear_ = capacity_ - 1;
         capacity_ *= 2;
         front_ = 0;
