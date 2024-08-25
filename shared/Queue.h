@@ -4,10 +4,13 @@
 #include <iomanip>
 #include <iostream>
 
-template <typename T>
-class Queue // Circular Queue
+using namespace std;
+
+template <typename T> // 템플릿 선언 -> 제네릭 프로그래밍 목적
+class Queue           // Circular Queue
 {
   public:
+    /* 큐 생성자 */
     Queue(int capacity = 2) {
         assert(capacity > 0);
 
@@ -15,31 +18,36 @@ class Queue // Circular Queue
         queue_ = new T[capacity_];
         front_ = rear_ = 0;
     }
-
+    /* 큐 소멸자 */
     ~Queue() {
         if (queue_)
             delete[] queue_;
     }
 
+    /* 큐가 비어있는 지 여부 */
     bool IsEmpty() const { return front_ == rear_; }
 
+    /* 큐가 차 있는지 여부 */
     bool IsFull() const {
         // 원형 큐에서 꽉 찼다의 기준
         return (rear_ + 1) % capacity_ == front_;
     }
 
+    /* 큐의 맨 앞 인덱스 */
     T &Front() const {
         assert(!IsEmpty());
 
         return queue_[(front_ + 1) % capacity_]; // 주의 + 1
     }
 
+    /* 큐의 끝 인덱스 */
     T &Rear() const {
         assert(!IsEmpty());
 
         return queue_[rear_];
     }
 
+    /* TODO: 큐의 크기 */
     int Size() const {
         // 하나하나 세는 방법 보다는 경우를 따져서 바로 계산하는 것이 빠릅니다.
 
@@ -57,7 +65,13 @@ class Queue // Circular Queue
         // else
         //    return ...;
 
-        return 0; // TODO: 임시
+        if (IsEmpty()) {
+            return 0;
+        } else if (rear_ > front_) {
+            return rear_ - front_;
+        } else {
+            return rear_ + capacity_ - front_;
+        }
     }
 
     void Resize() // 2배씩 증가
@@ -71,6 +85,12 @@ class Queue // Circular Queue
 
         // TODO: 하나하나 복사하는 방식은 쉽게 구현할 수 있습니다.
         //       (도전) 경우를 나눠서 memcpy()로 블럭 단위로 복사하면 더 효율적입니다.
+
+        /* 동작과정
+        1. 크기가 꽉 찼는지 확인
+        2. 꽉 안찼으면 -1 반환 또는 오류임을 로그로 띄우고 중단하거나 해당위치 보여주기
+        3. 꽉 찼으면 1) 메모리 생성 2) front < rear 3) front > rear
+         */
     }
 
     void Enqueue(const T &item) // 맨 뒤에 추가, Push()
@@ -78,7 +98,9 @@ class Queue // Circular Queue
         if (IsFull())
             Resize();
 
-        // TODO:
+        // REVIEW: 인덱스 변화를 수정한 다음에 엔큐하기
+        rear_ = (rear_ + 1) % capacity_;
+        queue_[rear_] = item;
     }
 
     void Dequeue() // 큐의 첫 요소 삭제, Pop()
