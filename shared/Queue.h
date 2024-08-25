@@ -89,32 +89,16 @@ class Queue           // Circular Queue
         //       (도전) 경우를 나눠서 memcpy()로 블럭 단위로 복사하면 더 효율적입니다.
 
         T *temp = new T[capacity_ * 2];
-        if (front_ < rear_) {
-
-            for (int i = 1; i <= rear_; i++) {
-                temp[i] = queue_[i];
-            }
-            cout << endl << endl;
-        } else if (front_ > rear_) {
-            // rear 이전에 저장된 내용물
-            for (int i = 0; i <= rear_; i++)
-                temp[capacity_ - front_ + i] = queue_[i];
-
-            // front 뒤 내용물
-            for (int i = front_ + 1; i < capacity_; i++)
-                temp[i - front_] = queue_[i];
-
-            cout << endl << endl;
-        } else // 비었을 경우
-        {
-            for (int i = 0; i < capacity_; i++)
-                cout << " - ";
-            cout << endl << endl;
+        int count = 1;
+        /* NOTE: 초기식과 증감식을 활용해서 인덱스 조절 가능 + 조건식을 통해 종료조건 지정 가능 */
+        for (int i = (front_ + 1) % capacity_; i != (rear_ + 1) % capacity_; i = (i + 1) % capacity_) {
+            temp[++count] = queue_[i];
         }
-        queue_ = temp;
+        front_ = 0;
         rear_ = capacity_ - 1;
         capacity_ *= 2;
-        front_ = 0;
+        delete[] queue_; // NOTE: 객체를 교체할 때 반드시 메모리를 해제해줄 것!
+        queue_ = temp;
     }
 
     void Enqueue(const T &item) // 맨 뒤에 추가, Push()
