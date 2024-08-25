@@ -89,29 +89,29 @@ class Queue           // Circular Queue
         //       (도전) 경우를 나눠서 memcpy()로 블럭 단위로 복사하면 더 효율적입니다.
 
         T *temp = new T[capacity_ * 2];
-        // int count = 1;
-        // /* NOTE: 초기식과 증감식을 활용해서 인덱스 조절 가능 + 조건식을 통해 종료조건 지정 가능 */
-        // for (int i = (front_ + 1) % capacity_; i != (rear_ + 1) % capacity_; i = (i + 1) % capacity_) {
-        //     temp[++count] = queue_[i];
-        // }
-        // front_ = 0;
-        // rear_ = capacity_ - 1;
-        // capacity_ *= 2;
-        // delete[] queue_; // NOTE: 객체를 교체할 때 반드시 메모리를 해제해줄 것!
-        // queue_ = temp;
-
-        int start = (front_ + 1) % capacity_; //
-        if (start < 2) {
-            memcpy(temp, queue_ + start, sizeof(T) * (capacity_ - 1)); // 포인터연산을 통해 주소 지정
-        } else {
-            memcpy(temp, queue_ + start, sizeof(T) * (capacity_ - start));
-            memcpy(temp + capacity_ - start, queue_, sizeof(T) * (rear_ + 1));
+        int count = 1;
+        /* NOTE: 초기식과 증감식을 활용해서 인덱스 조절 가능 + 조건식을 통해 종료조건 지정 가능 */
+        for (int i = (front_ + 1) % capacity_; i != (rear_ + 1) % capacity_; i = (i + 1) % capacity_) {
+            temp[++count] = queue_[i];
         }
-        front_ = 2 * capacity_ - 1; // 빈공간을 없애는 방식일 때 front의 위치
-        rear_ = capacity_ - 2;      // memcpy로 구현했을 때 rear_의 인덱스값
-        capacity_ *= 2;             // 새로 갱신 된 배열의 크기 추적
-        delete[] queue_;
+        front_ = 0;
+        rear_ = capacity_ - 1;
+        capacity_ *= 2;
+        delete[] queue_; // NOTE: 객체를 교체할 때 반드시 메모리를 해제해줄 것!
         queue_ = temp;
+
+        // int start = (front_ + 1) % capacity_; //
+        // if (start < 2) {
+        //     memcpy(temp, queue_ + start, sizeof(T) * (capacity_ - 1)); // 포인터연산을 통해 주소 지정
+        // } else {
+        //     memcpy(temp, queue_ + start, sizeof(T) * (capacity_ - start));
+        //     memcpy(temp + capacity_ - start, queue_, sizeof(T) * (rear_ + 1));
+        // }
+        // front_ = 2 * capacity_ - 1; // 빈공간을 없애는 방식일 때 front의 위치
+        // rear_ = capacity_ - 2;      // memcpy로 구현했을 때 rear_의 인덱스값
+        // capacity_ *= 2;             // 새로 갱신 된 배열의 크기 추적
+        // delete[] queue_;
+        // queue_ = temp;
     }
 
     void Enqueue(const T &item) // 맨 뒤에 추가, Push()
