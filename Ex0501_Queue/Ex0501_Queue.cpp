@@ -28,19 +28,19 @@ int main() {
     q.Print();
 
     q.Dequeue();
-    q.Print();
-    exit(-1);
+    q.Print(); // B C D
 
-    q.Dequeue();
+    q.Dequeue(); // C D
     q.Print();
 
-    q.Dequeue();
+    q.Dequeue(); // D
     q.Print();
 
     for (char c = 'E'; c <= 'K'; c++) {
         q.Enqueue(c);
         q.Print();
     }
-
+	exit(-1);
+	
     return 0;
 }

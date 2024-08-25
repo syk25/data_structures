@@ -129,7 +129,8 @@ class Queue           // Circular Queue
     {
         assert(!IsEmpty());
 
-        // TODO:
+        // REVIEW:
+        front_ = (front_ + 1) % capacity_;
     }
 
     void Print() {
