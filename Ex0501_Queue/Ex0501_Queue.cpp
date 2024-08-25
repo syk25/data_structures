@@ -13,14 +13,13 @@ int main() {
 
     q.Print();
 
-	/* Enqueue 구현 필요 */
+    /* Enqueue 구현 필요 */
     q.Enqueue('A');
     q.Print();
 
-	/* 시작크기가 2이므로 Resizing 구현 필요 */
+    /* 시작크기가 2이므로 Resizing 구현 필요 */
     q.Enqueue('B');
     q.Print();
-    exit(-1);
 
     q.Enqueue('C');
     q.Print();
@@ -30,6 +29,7 @@ int main() {
 
     q.Dequeue();
     q.Print();
+    exit(-1);
 
     q.Dequeue();
     q.Print();

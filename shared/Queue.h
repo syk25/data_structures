@@ -83,13 +83,13 @@ class Queue           // Circular Queue
         // - 머리도 쓰고 고민도 하다 보면 인생을 지탱해줄 능력을 갖추게 됩니다.
         // - 힘들면 디스코드에서 조금씩 도움 받으시는 것도 좋아요.
 
-        // TODO: 하나하나 복사하는 방식은 쉽게 구현할 수 있습니다.
+        // REVIEW: 하나하나 복사하는 방식은 쉽게 구현할 수 있습니다.
         //       (도전) 경우를 나눠서 memcpy()로 블럭 단위로 복사하면 더 효율적입니다.
 
-        T *temp = new T[capacity_*2];
+        T *temp = new T[capacity_ * 2];
         if (front_ < rear_) {
 
-            for (int i = 1; i <= rear_; i++){
+            for (int i = 1; i <= rear_; i++) {
                 temp[i] = queue_[i];
             }
 
@@ -113,7 +113,6 @@ class Queue           // Circular Queue
         rear_ = capacity_ - 1;
         capacity_ *= 2;
         front_ = 0;
-        
     }
 
     void Enqueue(const T &item) // 맨 뒤에 추가, Push()
