@@ -5,21 +5,21 @@ using namespace std;
 int main() {
     // 생성자, MyString::Print()
     {
-        MyString str1("hi hay he hel hello llo ello el el o!");
+        MyString str1("hi hay he hel hello llo ello el el o!"); // 문자열의 주소값이 넘어감
         str1.Print();
     }
 
     // Find()
     {
         MyString str1("hi hay he hel hello llo ello el el o!");
-        cout << str1.Find(MyString("hell")) << endl;
+        cout << str1.Find(MyString("hell")) << endl; // 14
 
-        cout << "Found at " << MyString("ABCDEF").Find(MyString("A")) << endl;
-        cout << "Found at " << MyString("ABCDEF").Find(MyString("AB")) << endl;
-        cout << "Found at " << MyString("ABCDEF").Find(MyString("CDE")) << endl;
-        cout << "Found at " << MyString("ABCDEF").Find(MyString("EF")) << endl;
-        cout << "Found at " << MyString("ABCDEF").Find(MyString("EFG")) << endl;
-        cout << "Found at " << MyString("ABCDEF").Find(MyString("EFGHIJ")) << endl;
+        cout << "Found at " << MyString("ABCDEF").Find(MyString("A")) << endl;      // 0
+        cout << "Found at " << MyString("ABCDEF").Find(MyString("AB")) << endl;     // 0
+        cout << "Found at " << MyString("ABCDEF").Find(MyString("CDE")) << endl;    // 2
+        cout << "Found at " << MyString("ABCDEF").Find(MyString("EF")) << endl;     // 4
+        cout << "Found at " << MyString("ABCDEF").Find(MyString("EFG")) << endl;    // -1
+        cout << "Found at " << MyString("ABCDEF").Find(MyString("EFGHIJ")) << endl; // -1
     }
 
     // 복사 생성자
