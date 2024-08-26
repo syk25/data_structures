@@ -41,13 +41,13 @@ float SparsePolynomial::Eval(float x) {
     float temp = 0.0f;
 
     // REVIEW:
-    for(int i = 0; i < num_terms_; i++){
+    for (int i = 0; i < num_terms_; i++) {
         temp += terms_[i].coef * powf(x, terms_[i].exp);
     }
 
     return temp;
 }
-
+/* NOTE: 이미 만들어진 함수들을 활용하면 코드중복을 줄이는 동시에 가독성도 높일 수 있다. 함수를 잘 활용하자. */
 SparsePolynomial SparsePolynomial::Add(const SparsePolynomial &poly) {
     // this와 poly의 terms_가 exp의 오름차순으로 정렬되어 있다고 가정
     // 하나의 다항식 안에 exp가 중복되는 term이 없다라고 가정 (한 exp는 하나의
@@ -61,17 +61,45 @@ SparsePolynomial SparsePolynomial::Add(const SparsePolynomial &poly) {
 
     SparsePolynomial temp;
 
-    // TODO:
-    temp.num_terms_ = this->num_terms_ + poly.num_terms_;
-    temp.capacity_ = temp.num_terms_ * 2;
-
+    // REVIEW:
+    temp.capacity_ = capacity_ + poly.capacity_;
     temp.terms_ = new Term[temp.capacity_];
+    int i = 0; // 피연산자1 인덱스
+    int j = 0; // 피연산자2 인덱스
+    int k = 0; // 결과인덱스
 
-    int thisIndex = 0;
-    int polyIndex = 0;
-    while(!(thisIndex > this->num_terms_ && polyIndex > poly.num_terms_)){
-        
+    for (k = 0; i < num_terms_ && j < poly.num_terms_; k++) {
+        float t_coef = terms_[i].coef;
+        float p_coef = poly.terms_[j].coef;
+        int t_exp = terms_[i].exp;
+        int p_exp = poly.terms_[j].exp;
+
+        if (t_exp < p_exp) {
+            temp.terms_[k].exp = t_exp;
+            temp.terms_[k].coef = t_coef;
+            i++;
+        } else if (t_exp > p_exp) {
+            temp.terms_[k].exp = p_exp;
+            temp.terms_[k].coef = p_coef;
+            j++;
+        } else {
+            temp.terms_[k].exp = t_exp;
+            temp.terms_[k].coef = t_coef + p_coef;
+            i++;
+            j++;
+        }
     }
+
+    if (i == num_terms_) {
+        for (; j != poly.num_terms_; k++, j++) {
+            temp.terms_[k] = poly.terms_[j];
+        }
+    } else if (j == poly.num_terms_) {
+        for (; i != num_terms_; k++, i++) {
+            temp.terms_[k] = terms_[i];
+        }
+    }
+    temp.num_terms_ = k;
 
     return temp;
 }

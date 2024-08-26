@@ -25,13 +25,13 @@ MyString::MyString(const char *init) {
 }
 
 // MyString의 다른 instance로부터 초기화
-MyString::MyString(const MyString &str) { // NOTE: 복사생성자임
+MyString::MyString(const MyString &str) {
     // 기본 복사 생성자는 포인터 주소만 복사하기 때문에
     // 소멸시 오류 발생
     // 여기서는 새로 메모리를 할당 받아서 복사
     size_ = str.size_;
-    char *copied[size_];
-    memcpy(str_, str.str_, size_);
+    str_ = new char[size_];
+    memcpy(str_, str.str_, str.size_);
 }
 
 MyString::~MyString() {
@@ -88,7 +88,7 @@ MyString MyString::Substr(int start, int num) {
 
     MyString temp;
 
-    // TODO:
+    // REVIEW:
     // temp.size_ = num;
     temp.Resize(num); // 로직을 추가할 때 기존에 정의한 로직을 활용
 
@@ -102,7 +102,7 @@ MyString MyString::Substr(int start, int num) {
 MyString MyString::Concat(MyString app_str) {
     MyString temp;
 
-    // TODO:
+    // REVIEW:
 
     temp.Resize(this->size_ + app_str.size_);
 
@@ -117,36 +117,33 @@ MyString MyString::Insert(MyString t, int start) {
 
     MyString temp;
 
-    // TODO:
-    temp.Resize(this->size_ + t.size_);
+    // REVIEW:
+    temp.size_ = size_ + t.size_;
+    temp.str_ = new char[temp.size_];
 
-    for (int i = 0; i < start; i++) {
-        temp.str_[i] = this->str_[i];
-    }
-    for (int i = start; i < t.size_; i++) {
-        temp.str_[i] = t.str_[i - start];
-    }
-    for (int i = t.size_; i < temp.size_; i++) {
-        temp.str_[i] = this->str_[i - t.size_];
-    }
+    memcpy(temp.str_, str_, start);
+    memcpy(temp.str_ + start, t.str_, t.size_);
+    memcpy(temp.str_ + start + t.size_, str_ + start, size_ - start);
 
     return temp;
 }
 
 int MyString::Find(MyString pat) {
-    // TODO:
+    // REVIEW:
 
-    for(int start = 0; start <= Length() - pat.Length(); start++){
-        for(int j = 0; j < pat.Length(); j++){
-            if((str_[start + j]) != pat.str_[j]){
+    for (int start = 0; start <= Length() - pat.Length(); start++) {
+        for (int j = 0; j < pat.Length(); j++) {
+            if (pat.str_[j] != str_[start + j]) { // 패턴의 각각의 글자와 일치 여부
                 break;
             }
 
-            if(j == pat.Length() - 1){
+            if (j == pat.Length() - 1) { // 패턴 안의 문자 전부를 확인한 경우
                 return start;
             }
         }
     }
+    return -1;
+    // KMP 알고리즘
 }
 
 void MyString::Print() {
