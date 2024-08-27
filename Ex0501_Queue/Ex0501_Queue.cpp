@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-using namespace std;
-
 int main() {
     // FIFO(First In First Out)
 
@@ -13,25 +11,23 @@ int main() {
 
     q.Print();
 
-    /* Enqueue 구현 필요 */
-    q.Enqueue('A');
+    q.Enqueue('A'); // A
     q.Print();
 
-    /* 시작크기가 2이므로 Resizing 구현 필요 */
-    q.Enqueue('B');
+    q.Enqueue('B'); // A B
     q.Print();
 
-    q.Enqueue('C');
-    q.Print();
+    q.Enqueue('C'); // A B C
+    // q.Print();
 
-    q.Enqueue('D');
-    q.Print();
+    q.Enqueue('D'); // A B C D
+    // q.Print();
 
-    q.Dequeue();
-    q.Print(); // B C D
+    q.Dequeue(); // B C D
+    // q.Print();
 
     q.Dequeue(); // C D
-    q.Print();
+    // q.Print();
 
     q.Dequeue(); // D
     q.Print();
@@ -40,7 +36,6 @@ int main() {
         q.Enqueue(c);
         q.Print();
     }
-	exit(-1);
-	
+
     return 0;
 }

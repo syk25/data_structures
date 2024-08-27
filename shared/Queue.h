@@ -8,6 +8,7 @@ template <typename T>
 class Queue // Circular Queue
 {
   public:
+    /* 생성자 */
     Queue(int capacity = 2) {
         assert(capacity > 0);
 
@@ -15,31 +16,35 @@ class Queue // Circular Queue
         queue_ = new T[capacity_];
         front_ = rear_ = 0;
     }
-
+    /* 소멸자 */
     ~Queue() {
         if (queue_)
             delete[] queue_;
     }
-
+    /* 큐가 비어 있는지 */
     bool IsEmpty() const { return front_ == rear_; }
 
+    /* 큐가 차 있는 지 */
     bool IsFull() const {
         // 원형 큐에서 꽉 찼다의 기준
         return (rear_ + 1) % capacity_ == front_;
     }
 
+    /* 가장 먼저 들어온 원소 반환 */
     T &Front() const {
         assert(!IsEmpty());
 
         return queue_[(front_ + 1) % capacity_]; // 주의 + 1
     }
 
+    /* 가장 마지막에 들어온 원소 반환  */
     T &Rear() const {
         assert(!IsEmpty());
 
         return queue_[rear_];
     }
 
+    /* 크기 반환 */
     int Size() const {
         // 하나하나 세는 방법 보다는 경우를 따져서 바로 계산하는 것이 빠릅니다.
 
@@ -56,8 +61,17 @@ class Queue // Circular Queue
         //	  return ...;
         // else
         //    return ...;
-
-        return 0; // TODO: 임시
+        // REVIEW:
+        if (IsEmpty()) {
+            return 0;
+        } else if (IsFull()) {
+            return capacity_ - 1;
+        } else if (rear_ > front_) {
+            return rear_ - front_;
+        } else if (rear_ < front_) {
+            return (rear_ + capacity_) - front_;
+        }
+        return -1;
     }
 
     void Resize() // 2배씩 증가
@@ -69,8 +83,30 @@ class Queue // Circular Queue
         // - 머리도 쓰고 고민도 하다 보면 인생을 지탱해줄 능력을 갖추게 됩니다.
         // - 힘들면 디스코드에서 조금씩 도움 받으시는 것도 좋아요.
 
-        // TODO: 하나하나 복사하는 방식은 쉽게 구현할 수 있습니다.
+        // REVIEW: 하나하나 복사하는 방식은 쉽게 구현할 수 있습니다.
         //       (도전) 경우를 나눠서 memcpy()로 블럭 단위로 복사하면 더 효율적입니다.
+
+        T *temp = new T[capacity_ * 2];
+
+        if (front_ < rear_) {
+            memcpy(temp, queue_, sizeof(T) * capacity_);
+        } else {
+            int k = 0;
+            for (int i = front_; i < capacity_; i++) {
+                temp[k] = queue_[i];
+                k++;
+            }
+            for (int j = 0; j <= rear_; j++) {
+                temp[k] = queue_[j];
+                k++;
+            }
+
+            front_ = 0;
+            rear_ = capacity_ - 1;
+        }
+        delete[] queue_;
+        queue_ = temp;
+        capacity_ *= 2;
     }
 
     void Enqueue(const T &item) // 맨 뒤에 추가, Push()
@@ -78,14 +114,17 @@ class Queue // Circular Queue
         if (IsFull())
             Resize();
 
-        // TODO:
+        // REVIEW:
+        rear_ = (rear_ + 1) % capacity_;
+        queue_[rear_] = item;
     }
 
     void Dequeue() // 큐의 첫 요소 삭제, Pop()
     {
         assert(!IsEmpty());
 
-        // TODO:
+        // REVIEW:
+        front_ = (front_ + 1) % capacity_;
     }
 
     void Print() {
