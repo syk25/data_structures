@@ -4,13 +4,10 @@
 #include <iomanip>
 #include <iostream>
 
-using namespace std;
-
-template <typename T> // 템플릿 선언 -> 제네릭 프로그래밍 목적
-class Queue           // Circular Queue
+template <typename T>
+class Queue // Circular Queue
 {
   public:
-    /* 큐 생성자 */
     Queue(int capacity = 2) {
         assert(capacity > 0);
 
@@ -18,36 +15,31 @@ class Queue           // Circular Queue
         queue_ = new T[capacity_];
         front_ = rear_ = 0;
     }
-    /* 큐 소멸자 */
+
     ~Queue() {
         if (queue_)
             delete[] queue_;
     }
 
-    /* 큐가 비어있는 지 여부 */
     bool IsEmpty() const { return front_ == rear_; }
 
-    /* 큐가 차 있는지 여부 */
     bool IsFull() const {
         // 원형 큐에서 꽉 찼다의 기준
         return (rear_ + 1) % capacity_ == front_;
     }
 
-    /* 큐의 맨 앞 인덱스 */
     T &Front() const {
         assert(!IsEmpty());
 
         return queue_[(front_ + 1) % capacity_]; // 주의 + 1
     }
 
-    /* 큐의 끝 인덱스 */
     T &Rear() const {
         assert(!IsEmpty());
 
         return queue_[rear_];
     }
 
-    /* TODO: 큐의 크기 */
     int Size() const {
         // 하나하나 세는 방법 보다는 경우를 따져서 바로 계산하는 것이 빠릅니다.
 
@@ -65,17 +57,9 @@ class Queue           // Circular Queue
         // else
         //    return ...;
 
-        if (IsEmpty()) {
-            return 0;
-        } else if (rear_ > front_) {
-            return rear_ - front_;
-        } else {
-            return rear_ + capacity_ - front_;
-        }
+        return 0; // TODO: 임시
     }
 
-    /* 크기 재조정 */
-    // NOTE: 원형큐에서 구현하기 가장 까다로운 부분
     void Resize() // 2배씩 증가
     {
         // 조언
@@ -85,33 +69,8 @@ class Queue           // Circular Queue
         // - 머리도 쓰고 고민도 하다 보면 인생을 지탱해줄 능력을 갖추게 됩니다.
         // - 힘들면 디스코드에서 조금씩 도움 받으시는 것도 좋아요.
 
-        // REVIEW: 하나하나 복사하는 방식은 쉽게 구현할 수 있습니다.
+        // TODO: 하나하나 복사하는 방식은 쉽게 구현할 수 있습니다.
         //       (도전) 경우를 나눠서 memcpy()로 블럭 단위로 복사하면 더 효율적입니다.
-
-        T *temp = new T[capacity_ * 2];
-        int count = 1;
-        /* NOTE: 초기식과 증감식을 활용해서 인덱스 조절 가능 + 조건식을 통해 종료조건 지정 가능 */
-        for (int i = (front_ + 1) % capacity_; i != (rear_ + 1) % capacity_; i = (i + 1) % capacity_) {
-            temp[++count] = queue_[i];
-        }
-        front_ = 0;
-        rear_ = capacity_ - 1;
-        capacity_ *= 2;
-        delete[] queue_; // NOTE: 객체를 교체할 때 반드시 메모리를 해제해줄 것!
-        queue_ = temp;
-
-        // int start = (front_ + 1) % capacity_; //
-        // if (start < 2) {
-        //     memcpy(temp, queue_ + start, sizeof(T) * (capacity_ - 1)); // 포인터연산을 통해 주소 지정
-        // } else {
-        //     memcpy(temp, queue_ + start, sizeof(T) * (capacity_ - start));
-        //     memcpy(temp + capacity_ - start, queue_, sizeof(T) * (rear_ + 1));
-        // }
-        // front_ = 2 * capacity_ - 1; // 빈공간을 없애는 방식일 때 front의 위치
-        // rear_ = capacity_ - 2;      // memcpy로 구현했을 때 rear_의 인덱스값
-        // capacity_ *= 2;             // 새로 갱신 된 배열의 크기 추적
-        // delete[] queue_;
-        // queue_ = temp;
     }
 
     void Enqueue(const T &item) // 맨 뒤에 추가, Push()
@@ -119,17 +78,14 @@ class Queue           // Circular Queue
         if (IsFull())
             Resize();
 
-        // REVIEW: 인덱스 변화를 수정한 다음에 엔큐하기
-        rear_ = (rear_ + 1) % capacity_;
-        queue_[rear_] = item;
+        // TODO:
     }
 
     void Dequeue() // 큐의 첫 요소 삭제, Pop()
     {
         assert(!IsEmpty());
 
-        // REVIEW:
-        front_ = (front_ + 1) % capacity_;
+        // TODO:
     }
 
     void Print() {
