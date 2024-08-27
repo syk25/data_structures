@@ -24,7 +24,7 @@ int main() {
 
     d.PopFront();
     d.Print();
-
+    
     d.PopBack();
     d.Print();
 

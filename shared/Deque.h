@@ -22,7 +22,13 @@ template <typename T> class Deque : public Queue<T> {
         if (Base::IsFull())
             Base::Resize();
 
-        // TODO:
+        // REVIEW:
+        Base::queue_[Base::front_] = item;
+        if (Base::front_ == 0) {
+            Base::front_ = Base::capacity_ - 1;
+        } else {
+            Base::front_--;
+        }
     }
 
     void PushBack(const T &item) { Base::Enqueue(item); }
@@ -32,7 +38,12 @@ template <typename T> class Deque : public Queue<T> {
     void PopBack() {
         assert(!Base::IsEmpty());
 
-        // TODO:
+        // REVIEW:
+        if (Base::rear_ == 0) {
+            Base::rear_ = Base::capacity_ - 1;
+        } else {
+            Base::rear_--;
+        }
     }
 
   private:
