@@ -21,18 +21,18 @@ int main() {
 
     cout << "Top = " << s.Top() << endl; // C : 가장 위에 있는 원소 반환
 
-    s.Pop(); // 가장 위 원소(C) 제거
+    s.Pop();   // 가장 위 원소(C) 제거
     s.Print(); // A B
 
     cout << "Top = " << s.Top() << endl; // B
 
-    s.Pop(); // B 제거
+    s.Pop();   // B 제거
     s.Print(); // A
 
     s.Push('E');
     s.Print(); // A E
 
-    s.Pop(); 
+    s.Pop();
     s.Print(); // A
 
     cout << "Top = " << s.Top() << endl; // A
@@ -57,12 +57,12 @@ int main() {
         cout << "Input: " << str << endl;
 
         Stack<char> stack;
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             stack.Push(str[i]);
         }
 
         // TODO:
-        for(int i = stack.Size() - 1; i >= 0; i--){
+        for (int i = stack.Size() - 1; i >= 0; i--) {
             cout << stack.Top();
             stack.Pop();
         }
