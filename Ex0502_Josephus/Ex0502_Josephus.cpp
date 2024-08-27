@@ -25,6 +25,19 @@ int main() {
 
     // 최후의 생존자 번호
     // cout << "Survivor: " << ... << endl;
+    while (q.Size() > 1) {
+        for (int i = 0; i < k - 1; i++) {
+            int delayed = q.Front();
+            q.Dequeue();
+            q.Enqueue(delayed);
+        }
+        q.Print();
+        int executed = q.Front();
+        q.Dequeue();
+        cout << "Executed " << executed << endl;
+        q.Print();
+    }
 
+    cout << "Survivor: " << q.Front() << endl;
     return 0;
 }
