@@ -6,6 +6,7 @@ struct Node {
     int item = 0; // <- 큰 데이터도 가능
     Node *next = nullptr;
 
+    /* 함수 overloading */
     friend ostream &operator<<(ostream &os, const Node &n) {
         cout << n.item << " " << flush;
         return os;
@@ -13,11 +14,18 @@ struct Node {
 };
 
 void RecurPrint(Node *node) {
-    // TODO:
+    // REVIEW:
+    if (node == nullptr)
+        return;
+    cout << *node << endl;
+    RecurPrint(node->next);
 }
 
 void IterPrint(Node *node) {
-    // TODO:
+    // REVIEW:
+    for (; node != nullptr; node = node->next) {
+        cout << *node << endl;
+    }
 }
 
 int main() {
@@ -58,37 +66,59 @@ int main() {
     cout << endl;
 
     // 연결 관계 만들어 주기
-    // first->next = second;
+    first->next = second;
+    second->next = third;
+    third->next = fourth;
+    fourth->next = fifth;
+    fifth->next = nullptr; // 넣을 값이 없어도 초기화하기
     // TODO:
     // 마지막
 
-    // cout << *(first) << endl;
-    // cout << *(first->next) << endl;
-    // cout << *(first->next->next) << endl;
-    // cout << *(first->next->next->next) << endl;
-    // cout << *(first->next->next->next->next) << endl;
-    //// cout << *(first->next->next->next->next->next) << endl; // 오류
+    cout << *(first) << endl;
+    cout << *(first->next) << endl;
+    cout << *(first->next->next) << endl;
+    cout << *(first->next->next->next) << endl;
+    cout << *(first->next->next->next->next) << endl;
+    // cout << *(first->next->next->next->next->next) << endl; // 오류
 
     cout << endl;
 
     // 임시 변수 사용
-    //{
-    //	Node* current = first;
-    //	cout << *current << endl;
+    {
+        Node *current = first;
 
-    // TODO:
-    //	cout << endl;
-    //}
+        // TODO:
+        while (current->next != nullptr) {
+            cout << *current << endl;
+            current = current->next;
+        }
+        cout << *current << endl;
+        cout << endl;
+    }
 
     // 재귀 호출 이용
-    // RecurPrint(first);
-    // cout << endl;
+    RecurPrint(first);
+    cout << endl;
 
     // 반복문 이용
-    // IterPrint(first);
-    // cout << endl;
+    IterPrint(first);
+    cout << endl;
 
-    // TODO: 데이터 삭제
+    // REVIEW: 데이터 삭제
+    Node *current = first;
+    Node *next = current->next;
+
+    while (next != nullptr) {
+        cout << *current << endl;
+        delete current;
+        current = next;
+        next = next->next;
+    }
+
+    cout << *current << endl;
+    delete current;
+    current = nullptr;
+    next = nullptr;
 
     return 0;
 }
