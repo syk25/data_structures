@@ -2,30 +2,36 @@
 
 using namespace std;
 
-struct Node {
-    int item = 0; // <- 큰 데이터도 가능
-    Node *next = nullptr;
+struct Node {             // 구조체: 데이터의 묶음
+    int item = 0;         // <- 큰 데이터도 가능
+    Node *next = nullptr; // 다음 노드의 위치
 
-    /* 함수 overloading */
+    // 연잔자 오버로딩: '<<'를 오버로딩함
     friend ostream &operator<<(ostream &os, const Node &n) {
-        cout << n.item << " " << flush;
+        cout << "[ 현재주소: " << &n << ", 노드의 값: " << n.item << ", 다음 주소: " << n.next << " ] " << flush;
         return os;
     }
 };
 
 void RecurPrint(Node *node) {
-    // REVIEW:
-    if (node == nullptr)
-        return;
-    cout << *node << endl;
-    RecurPrint(node->next);
+    // REVIEW: 조건식을 더 직관적으로 쓰자.
+    if (node) {
+        cout << *node << endl;
+        RecurPrint(node->next);
+    }
+    return;
 }
 
 void IterPrint(Node *node) {
     // REVIEW:
-    for (; node != nullptr; node = node->next) {
-        cout << *node << endl;
+    Node *current = node;
+
+    while (current) {
+        cout << *current << endl;
+        current = current->next;
     }
+
+    cout << endl;
 }
 
 int main() {
@@ -66,12 +72,13 @@ int main() {
     cout << endl;
 
     // 연결 관계 만들어 주기
+    // first->next = second;
+    // REVIEW:
     first->next = second;
     second->next = third;
     third->next = fourth;
     fourth->next = fifth;
-    fifth->next = nullptr; // 넣을 값이 없어도 초기화하기
-    // TODO:
+    fifth->next = nullptr; // NOTE: 널포인터 꼭 지정하기
     // 마지막
 
     cout << *(first) << endl;
@@ -86,13 +93,14 @@ int main() {
     // 임시 변수 사용
     {
         Node *current = first;
-
-        // TODO:
-        while (current->next != nullptr) {
-            cout << *current << endl;
-            current = current->next;
-        }
         cout << *current << endl;
+
+    REVIEW:
+        while (current->next != nullptr) {
+            current = current->next;
+            cout << *current << endl;
+        }
+
         cout << endl;
     }
 
@@ -105,20 +113,15 @@ int main() {
     cout << endl;
 
     // REVIEW: 데이터 삭제
-    Node *current = first;
-    Node *next = current->next;
-
-    while (next != nullptr) {
-        cout << *current << endl;
-        delete current;
-        current = next;
-        next = next->next;
+    Node *temp = first;
+    Node *current = temp;
+    while (temp) {
+        
+        cout << "delete " << *temp << endl;
+        delete temp;
+        temp = current;
+        current = temp->next;
     }
-
-    cout << *current << endl;
-    delete current;
-    current = nullptr;
-    next = nullptr;
 
     return 0;
 }
