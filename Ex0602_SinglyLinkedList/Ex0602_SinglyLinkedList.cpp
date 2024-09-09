@@ -15,7 +15,7 @@ int main() {
     list.PushFront(1);
     list.PushBack(5);
 
-    list.Print();
+    list.Print(); // 1 2 3 4 5 null
 
     // copy constructor
     {
@@ -38,16 +38,14 @@ int main() {
 
     // PopFront()/Back() 테스트
     for (int i = 0; i < 5; i++) {
-        // list.PopFront();
-        // list.Print();
-
-        list.PopBack();
+        list.PopFront();
         list.Print();
 
+        // list.PopBack();
+        // list.Print();
         if (!list.IsEmpty())
             cout << list.Front() << " " << list.Back() << endl;
     }
-
     // Edge case 테스트 주의
 
     return 0;
