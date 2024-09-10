@@ -1,8 +1,10 @@
 ﻿#pragma once
 
 #include <cassert>
+#include <iostream>
 #include <stdint.h>
 
+using namespace std;
 template <typename T> class SinglyLinkedList {
   public:
     struct Node {
@@ -207,7 +209,6 @@ template <typename T> class SinglyLinkedList {
     void SetPrintDebug(bool flag) { print_debug_ = flag; }
 
     void Print() {
-        using namespace std;
 
         Node *current = first_;
 
