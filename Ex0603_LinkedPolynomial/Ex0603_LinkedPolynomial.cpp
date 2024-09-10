@@ -13,13 +13,46 @@ class LinkedPolynomial : public SinglyLinkedList<Term> {
     typedef SinglyLinkedList<Term>::Node Node;
 
     void NewTerm(float coef, int exp) {
-        // TODO:
+        // TODO: 다항식에 새로운 항 추가하기
+        // 첫항이 비어있다면? 그냥 추가하기
+
+        // 항 생성하기
+        Term *t = new Term;
+        t->coef = coef;
+        t->exp = exp;
+
+        // 항을 노드에 대입하기
+
+        if (!IsEmpty()) {
+            Node *current = first_;
+            Node *prev = current;
+            while (true) {
+                if (t->exp > current->item.exp) {
+                    if (current->next) {
+                        prev = current;
+                        current = current->next;
+                    } else {
+                        PushBack(*t);
+                        break;
+                    }
+
+                } else if (t->exp < current->item.exp) {
+                    InsertBack(prev, *t);
+                    break;
+                } else {
+                    current->item.coef += t->coef;
+                    break;
+                }
+            }
+        } else {
+            PushFront(*t);
+        }
     }
 
     float Eval(float x) {
         float temp = 0.0f;
 
-        // TODO:
+        // TODO: 계산하기
 
         return temp;
     }
@@ -33,17 +66,41 @@ class LinkedPolynomial : public SinglyLinkedList<Term> {
         Node *i = this->first_;
         Node *j = poly.first_;
 
-        // TODO:
+        // TODO: 항끼리 더하기
 
         return temp;
     }
 
     void Print() {
+        using namespace std;
         bool is_first = true; // 더하기 출력시 확인용
 
-        // TODO:
+        // REVIEW:
 
-        cout << endl;
+        Node *current = first_;
+
+        if (IsEmpty())
+            cout << "Empty" << endl;
+        else {
+            cout << "Size = " << Size() << ": ";
+
+            while (current) {
+
+                if (current->item.exp != 0) {
+                    cout << current->item.coef << "*x^" << current->item.exp;
+                } else {
+                    cout << current->item.coef;
+                }
+
+                if (current->next)
+                    cout << " + ";
+                else
+                    cout << endl;
+
+                current = current->next;
+            }
+            cout << endl;
+        }
     }
 
   private:
@@ -60,6 +117,7 @@ int main() {
     p1.NewTerm(2.0f, 2); // 2 * x^2
 
     p1.Print(); // 1 + 1.5*x^1 + 2*x^2
+    exit(-1);
 
     cout << p1.Eval(0.0f) << endl; // 1 + 1.5*0 + 2*0^2 = 1
     cout << p1.Eval(1.0f) << endl; // 1 + 1.5*1 + 2*1^2 = 4.5
