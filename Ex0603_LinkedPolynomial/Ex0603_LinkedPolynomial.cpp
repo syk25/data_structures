@@ -8,14 +8,18 @@ struct Term {
     int exp;
 };
 
-class LinkedPolynomial : public SinglyLinkedList<Term> {
+class LinkedPolynomial : public SinglyLinkedList<Term> { // NOTE: 이건 상속..
   public:
-    typedef SinglyLinkedList<Term>::Node Node;
+    typedef SinglyLinkedList<Term>::Node Node; // NOTE: 이것도 무슨 문법인걸까....
 
     void NewTerm(float coef, int exp) {
         // REVIEW: 다항식에 새로운 항 추가하기
         // 첫항이 비어있다면? 그냥 추가하기
 
+        /* NOTE: 모범답안 */
+        Term term = {coef, exp}; // NOTE: 이건 무슨 문법인걸까....
+
+        /* NOTE: 내 답안 */
         // 항 생성하기
         Term *t = new Term;
         t->coef = coef;
