@@ -13,7 +13,7 @@ class LinkedPolynomial : public SinglyLinkedList<Term> {
     typedef SinglyLinkedList<Term>::Node Node;
 
     void NewTerm(float coef, int exp) {
-        // TODO: 다항식에 새로운 항 추가하기
+        // REVIEW: 다항식에 새로운 항 추가하기
         // 첫항이 비어있다면? 그냥 추가하기
 
         // 항 생성하기
