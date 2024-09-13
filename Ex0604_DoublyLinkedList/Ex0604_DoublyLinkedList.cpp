@@ -9,19 +9,19 @@ int main() {
 
     list.Print();
 
-    list.PushFront(3);
+    list.PushFront(3); // 3
     list.Print();
 
-    list.PushBack(4);
+    list.PushBack(4); // 3 4
     list.Print();
 
-    list.PushFront(2);
+    list.PushFront(2); // 2 3 4
     list.Print();
 
-    list.PushFront(1);
+    list.PushFront(1); // 1 2 3 4
     list.Print();
 
-    list.PushBack(5);
+    list.PushBack(5); // 1 2 3 4 5
     list.Print();
 
     list.Reverse();
@@ -31,14 +31,16 @@ int main() {
     list.InsertBack(temp, 1000);
     list.Print();
 
+    cout << "========================" << endl;
     // PopFront()/Back() 테스트
     for (int i = 0; i < 5; i++) {
-        // list.PopFront();
-        // list.Print();
-
-        list.PopBack();
+        cout << "count:" << i + 1 << endl;
+        list.PopFront();
         list.Print();
 
+        // list.PopBack();
+        // list.Print();
+        // exit(-1);
         if (!list.IsEmpty())
             cout << list.Front() << " " << list.Back() << endl;
     }

@@ -19,20 +19,36 @@ template <typename T> class DoublyLinkedList {
 
     ~DoublyLinkedList() { Clear(); }
 
-    void Clear() // 모두 지워야(delete) 합니다.
-    {
-        // TODO:
+    void Clear() {
+        // REVIEW:
+        // 모두 지워야(delete) 합니다.
+        Node *current = first_;
+        Node *next = current->right;
+        while (next) {
+            delete current;
+            current = next;
+            next = current->right;
+        }
+        delete current;
     }
 
     bool IsEmpty() {
-        return true; // TODO:
+        // REVIEW:
+        if (Size()) {
+            return false;
+        }
+        return true;
     }
 
     int Size() {
         int size = 0;
 
-        // TODO:
-
+        // REVIEW:
+        Node *current = first_;
+        while (current) {
+            size += 1;
+            current = current->right;
+        }
         return size;
     }
 
@@ -47,33 +63,86 @@ template <typename T> class DoublyLinkedList {
             cout << "Size = " << Size() << endl;
 
             cout << " Forward: ";
-            // TODO:
+            // REVIEW:
+            Node *current = first_;
+            Node *prev;
+            while (current) {
+                cout << current->item << " ";
+                prev = current;
+                current = current->right;
+            }
             cout << endl;
 
             cout << "Backward: ";
-            // TODO:
+            // REVIEW:
+            current = prev;
+            while (current) {
+                cout << current->item << " ";
+                current = current->left;
+            }
             cout << endl;
         }
     }
 
     Node *Find(T item) {
-        return nullptr; // TODO:
+        // REVIEW:
+        Node *current = first_;
+        while (current) {
+            if (current->item == item) {
+                return current;
+            }
+            current = current->right;
+        }
+        return nullptr;
     }
 
     void InsertBack(Node *node, T item) {
         if (IsEmpty()) {
             PushBack(item);
         } else {
-            // TODO:
+            // REVIEW:
+            Node *temp = new Node;
+            temp->item = item;
+
+            temp->left = node;
+            temp->right = node->right;
+
+            node->right->left = temp;
+
+            node->right = temp;
         }
     }
 
     void PushFront(T item) {
-        // TODO:
+        // REVIEW:
+
+        Node *temp = new Node;
+        temp->item = item;
+
+        if (IsEmpty()) {
+            first_ = temp;
+        } else {
+            temp->right = first_;
+            first_->left = temp;
+            first_ = temp;
+        }
     }
 
     void PushBack(T item) {
-        // TODO:
+        // REVIEW:
+        Node *temp = new Node;
+        temp->item = item;
+
+        if (IsEmpty()) {
+            first_ = temp;
+        } else {
+            Node *current = first_;
+            while (current->right) {
+                current = current->right;
+            }
+            current->right = temp;
+            temp->left = current;
+        }
     }
 
     void PopFront() {
@@ -85,7 +154,14 @@ template <typename T> class DoublyLinkedList {
 
         assert(first_);
 
-        // TODO:
+        // REVIEW
+        Node *current = first_;
+        if (!current->right) {
+            delete current;
+        }
+        first_ = current->right;
+        first_->left = nullptr;
+        delete current;
     }
 
     void PopBack() {
@@ -99,23 +175,65 @@ template <typename T> class DoublyLinkedList {
 
         assert(first_);
 
-        // TODO:
+        // REVIEW
+        Node *current = first_;
+        Node *prev = nullptr;
+
+        if (!current->right) {
+            delete current;
+            first_ = nullptr;
+            return;
+        }
+
+        while (current) {
+            prev = current;
+            current = current->right;
+        }
+        prev->left->right = nullptr;
+
+        prev->left = nullptr;
+        delete prev;
     }
 
     void Reverse() {
-        // TODO:
+        // REVIEW:
+        Node *main = first_;
+        Node *next = nullptr;
+        Node *prev = nullptr;
+
+        if (IsEmpty()) {
+            return;
+        }
+
+        while (main) {
+            next = main->right;
+
+            Node *temp = main->left;
+            main->left = main->right;
+            main->right = temp;
+
+            prev = main;
+            main = next;
+        }
+        first_ = prev;
     }
 
     T Front() {
+
+        // REVIEW:
         assert(first_);
 
-        return T(); // TODO:
+        return first_->item;
     }
 
     T Back() {
+        // REVIEW:
         assert(first_);
-
-        return T(); // TODO:
+        Node *current = first_;
+        while (current->right) {
+            current = current->right;
+        }
+        return current->item;
     }
 
   protected:
