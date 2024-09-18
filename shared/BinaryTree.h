@@ -53,48 +53,85 @@ template <typename T> class BinaryTree {
 
     int Sum() { return Sum(root_); }
 
+    // REVIEW:
     int Sum(Node *node) {
-        return 0; // TODO:
+        if (!node)
+            return 0;
+
+        return Sum(node->left) + Sum(node->right) + node->item;
     }
 
     int Height() { return Height(root_); }
 
+    // REVIEW:
     int Height(Node *node) {
-        return 0; // TODO:
+        if (!node)
+            return 0;
+        return 1 + std::max(Height(node->left), Height(node->right));
     }
 
     ~BinaryTree() { DeleteTree(root_); }
 
     void DeleteTree(Node *node) {
         if (node) {
-            // TODO: 힌트 Post-order
+            // REVIEW: 힌트 Post-order
+            DeleteTree(node->left);
+            DeleteTree(node->right);
+            delete node;
         }
     }
 
+    // REVIEW:
     void Preorder() { Preorder(root_); }
     void Preorder(Node *node) {
-        // TODO:
+        if (node) {
+            Visit(node);
+            Preorder(node->left);
+            Preorder(node->right);
+        }
     };
 
+    // REVIEW:
     void Inorder() { Inorder(root_); }
     void Inorder(Node *node) {
-        // TODO:
+        if (node) {
+            Inorder(node->left);
+            Visit(node);
+            Inorder(node->right);
+        }
     }
 
+    // REVIEW:
     void Postorder() { Postorder(root_); }
     void Postorder(Node *node) {
-        // TODO:
+        if (node) {
+            Postorder(node->left);
+            Postorder(node->right);
+            Visit(node);
+        }
     }
 
+    // REVIEW:
     void LevelOrder() {
         Queue<Node *> q; // 힌트: MyQueue q;
         Node *current = root_;
         while (current) {
+
             Visit(current);
-            // TODO:
+            if (current->left) {
+                q.Enqueue(current->left);
+            }
+            if (current->right) {
+                q.Enqueue(current->right);
+            }
+            if (q.IsEmpty())
+                return;
+            current = q.Front();
+            q.Dequeue();
         }
     }
 
+    // REVIEW:
     void IterPreorder() {
         if (!root_)
             return;
@@ -103,10 +140,19 @@ template <typename T> class BinaryTree {
         s.Push(root_);
 
         while (!s.IsEmpty()) {
-            // TODO:
+            Node *current = s.Top();
+            s.Pop();
+            Visit(current);
+            if (current->right) {
+                s.Push(current->right);
+            }
+            if (current->left) {
+                s.Push(current->left);
+            }
         }
     }
 
+    // TODO: 반복문 안에 반복문을 쓸 수 있다!
     void IterInorder() {
         if (!root_)
             return;
@@ -115,10 +161,19 @@ template <typename T> class BinaryTree {
 
         Node *current = root_;
         while (current || !s.IsEmpty()) {
-            // TODO:
+            while (current) {
+                s.Push(current);
+                current = current->left;
+            }
+            current = s.Top();
+            s.Pop();
+
+            Visit(current);
+            current = current->right;
         }
     }
 
+    // TODO: 스택을 2개 사용해서 구현하는 경우도 있다
     void IterPostorder() {
         if (!root_)
             return;
@@ -127,11 +182,24 @@ template <typename T> class BinaryTree {
         s1.Push(root_);
 
         while (!s1.IsEmpty()) {
-            // TODO:
+            Node *node = s1.Top();
+            s1.Pop();
+
+            s2.Push(node);
+
+            if (node->left) {
+                s1.Push(node->left);
+            }
+            if (node->right) {
+                s1.Push(node->right);
+            }
         }
 
         while (!s2.IsEmpty()) {
-            // TODO:
+            Node *node = s2.Top();
+            s2.Pop();
+
+            Visit(node);
         }
     }
 
