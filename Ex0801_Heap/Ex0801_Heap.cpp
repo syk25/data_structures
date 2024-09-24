@@ -26,7 +26,6 @@ int main() {
         h.Push(i);
         h.Print();
     }
-
     // 힙 정렬 O(nlogn), Not stable
     while (!h.IsEmpty()) {
         cout << h.Top() << " ";
@@ -34,6 +33,7 @@ int main() {
         // h.Print();
     }
     cout << endl;
+    exit(-1);
 
     return 0;
 }
