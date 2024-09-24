@@ -32,6 +32,8 @@ int main() {
     bst.Remove(999); // 없는 키에대해 삭제
     bst.Print2D();
 
+    std::cout << "======" << std::endl;
+
     for (int i : {5, 4, 7, 3}) {
         bst.Remove(i);
         bst.Print2D();

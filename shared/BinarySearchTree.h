@@ -64,7 +64,17 @@ template <typename K, typename V> class BinarySearchTree {
     }
 
     Item *IterGet(const K &key) {
-        // TODO:
+        // COMPLETE:
+        Node *check = root_;
+        while (check) {
+            if (key < check->item.key) {
+                check = check->left;
+            } else if (key > check->item.key) {
+                check = check->right;
+            } else if (key == check->item.key) {
+                return check->item;
+            }
+        }
 
         return nullptr; // No matching
     }
@@ -72,15 +82,26 @@ template <typename K, typename V> class BinarySearchTree {
     void Insert(const Item &item) {
         using namespace std;
         cout << "Insert " << item.key << item.value << endl;
-        root_ = Insert(root_, item);
+        root_ = Insert(root_, item); // 삽입의 결과가 root에 해당
     }
 
     Node *Insert(Node *node, const Item &item) {
         // 힌트: RecurGet()
-
-        // TODO:
-
-        return node;
+        // REVIEW:
+        if (!node) {
+            node = new Node;
+            node->item = item;
+        }
+        if (item.key < node->item.key) {
+            node->left = Insert(node->left, item);
+        }
+        if (item.key > node->item.key) {
+            node->right = Insert(node->right, item);
+        }
+        if (item.key == node->item.key) {
+            node->item = item;
+        }
+        return node; // 아이템을 담은 노드를 반환
     }
 
     void IterInsert(const Item &item) {
@@ -109,7 +130,34 @@ template <typename K, typename V> class BinarySearchTree {
         else if (key > node->item.key)
             node->right = Remove(node->right, key);
         else {
-            // TODO:
+            // REVIEW:
+            if (!node->left && !node->right) {
+                delete node;
+                return nullptr;
+            }
+            if (!node->left) {
+                Node *child = node->right;
+                delete node;
+                return child;
+            }
+            if (!node->right) {
+                Node *child = node->left;
+                delete node;
+                return child;
+            }
+            if (node->left && node->right) {
+                Node *sub = node->right;
+                Node *child = sub->left;
+                while (child->left) {
+                    sub = child;
+                    child = child->left;
+                }
+                child->left = node->left;
+                child->right = node->right;
+                delete node;
+                sub->left = nullptr;
+                return child;
+            }
         }
 
         return node;
