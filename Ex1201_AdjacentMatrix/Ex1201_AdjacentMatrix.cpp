@@ -64,7 +64,7 @@ class AdjMatGraph // Adjacent Matrix Graph
     {
         assert(u < n_ && v < n_);
 
-        // TODO:
+        // COMPLETE:
         matrix_[u][v] = 1;
     }
 
@@ -73,18 +73,40 @@ class AdjMatGraph // Adjacent Matrix Graph
     void DepthFirstTraversal() {
         ResetVisited();
 
-        DepthFirstTraversal(0);
+        // DepthFirstTraversal(0);
+        IterDFT();
 
         cout << endl;
     }
 
     void DepthFirstTraversal(int v) // v는 인덱스
     {
-        // TODO:
+        // REVIEW: 노드들을 깊은 곳까지 방문 후 출력한다
+        visited_[v] = true;
+        cout << v << " ";
+        for (int i = 0; i < max_vertices_; i++) {
+            if (matrix_[v][i] == 1 && visited_[i] == false) {
+                DepthFirstTraversal(i);
+            }
+        }
     }
 
     void IterDFT() {
-        // TODO:
+        // REVIEW:
+        Stack<int> stack;
+        stack.Push(0);
+        visited_[0] = true;
+        while (!stack.IsEmpty()) {
+            int item = stack.Top();
+            stack.Pop();
+            cout << item << " ";
+            for (int i = max_vertices_ - 1; i >= 0; i--) {
+                if (visited_[i] == false && matrix_[item][i] == 1) {
+                    stack.Push(i);
+                    visited_[i] = true;
+                }
+            }
+        }
     }
 
     void BreadthFirstTraversal() {
@@ -94,7 +116,21 @@ class AdjMatGraph // Adjacent Matrix Graph
 
         ResetVisited();
 
-        // TODO:
+        // REVIEW:
+        q.Enqueue(v);
+        visited_[v] = true;
+
+        for (int i = 0; i < max_vertices_; i++) {
+            v = q.Front();
+            q.Dequeue();
+            cout << v << " ";
+            for (int j = 0; j < max_vertices_; j++) {
+                if (visited_[j] == false && matrix_[v][j] == 1) {
+                    q.Enqueue(j);
+                    visited_[j] = true;
+                }
+            }
+        }
     }
 
     void ResetVisited() {
