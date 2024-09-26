@@ -31,9 +31,22 @@ void Merge(int init[], int merged[], int left, int mid, int right) {
 
     // 인덱스를 2개 이용해서 정렬하면서 merge
     // TODO:
+    while (i <= mid && j <= right) {
+        if (init[i] < init[j]) {
+            merged[k++] = init[i++];
+        } else {
+            merged[k++] = init[j++];
+        }
+    }
 
     // 남은 내용들 복사
     // TODO:
+    while (i <= mid) {
+        merged[k++] = init[i++];
+    }
+    while (j <= right) {
+        merged[k++] = init[j++];
+    }
 
     // merged -> init 복사
     for (l = left; l <= right; l++)
@@ -49,9 +62,11 @@ void MergeSort(int arr[], int merged[], int left, int right) {
     if (left < right) {
         mid = (left + right) / 2;
 
-        MergeSort(arr, merged, left, mid);
-        MergeSort(arr, merged, mid + 1, right);
-
+        // 분할: 배열을 실질적으로 움직이기보다는 포인터를 움직임으로써 정렬을 꾀함
+        MergeSort(arr, merged, left, mid);      // 현재배열의 왼쪽 쪼개기
+        MergeSort(arr, merged, mid + 1, right); // 현재배열의 오른쪽 쪼개기
+        // 정복 + 병합
+        std::cout << "l: " << left << " r: " << right << std::endl;
         Merge(arr, merged, left, mid, right);
     }
 }
