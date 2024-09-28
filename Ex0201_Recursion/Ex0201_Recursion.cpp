@@ -13,14 +13,17 @@ void Func1() {
 }
 
 void RecurFunc(int count) {
-    if (count == 0) // <- 종료 조건
+    if (count == 0) {
+        cout << "Reaching base condition Complete" << endl;
         return;
+    }
 
     // RecurFunc(count - 1); // <- 변경
 
-    cout << count << endl;
-
+    // cout << count << endl;
+    cout << "Before: " << count << endl;
     RecurFunc(count - 1); // <- 변경
+    cout << "After : " << count << endl;
 
     // 실행 위치에 따라 결과가 달라집니다.
 }
