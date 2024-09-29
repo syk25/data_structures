@@ -1,25 +1,26 @@
 ﻿#pragma once
 
-class Matrix {
-  public:
-    Matrix(int num_rows, int num_cols);
+class Matrix
+{
+public:
+	Matrix(int num_rows, int num_cols);
 
-    Matrix(const Matrix &b);
+	Matrix(const Matrix& b);
 
-    ~Matrix();
+	~Matrix();
 
-    void SetValue(int row, int col, float value);
+	void SetValue(int row, int col, float value);
 
-    float GetValue(int row, int col) const;
+	float GetValue(int row, int col) const;
 
-    Matrix Add(const Matrix &b);
+	Matrix Add(const Matrix& b);
 
-    Matrix Transpose();
+	Matrix Transpose();
 
-    void Print();
+	void Print();
 
-  private:
-    float *values_ = nullptr;
-    int num_rows_ = 0;
-    int num_cols_ = 0;
+private:
+	float* values_ = nullptr;
+	int num_rows_ = 0;
+	int num_cols_ = 0;
 };

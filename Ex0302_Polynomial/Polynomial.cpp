@@ -6,114 +6,99 @@
 
 using namespace std;
 
-/* 다항식 생성자 */
 Polynomial::Polynomial(int max_degree) // 편의상 기본값 사용
 {
-    assert(max_degree > 0);
+	assert(max_degree > 0);
 
-    // - 상수항 포함
-    // - 예: max_degree가 2이면 c0*x^0 + c1*x^1 + c2*x^2 총 3개의 항들
-    capacity_ = max_degree + 1;
+	// - 상수항 포함
+	// - 예: max_degree가 2이면 c0*x^0 + c1*x^1 + c2*x^2 총 3개의 항들
+	capacity_ = max_degree + 1;
 
-    // 동적 메모리 할당
-    coeffs_ = new float[capacity_];
+	// 동적 메모리 할당
+	coeffs_ = new float[capacity_];
 
-    // 0으로 초기화
-    for (int i = 0; i < capacity_; i++)
-        coeffs_[i] = 0.0f;
+	// 0으로 초기화
+	for (int i = 0; i < capacity_; i++)
+		coeffs_[i] = 0.0f;
 }
 
-/* 복제 생성자 */
-Polynomial::Polynomial(const Polynomial &poly) {
-    this->capacity_ = poly.capacity_;
-    coeffs_ = new float[capacity_];
-    for (int i = 0; i < capacity_; i++)
-        coeffs_[i] = poly.coeffs_[i];
+Polynomial::Polynomial(const Polynomial& poly)
+{
+	this->capacity_ = poly.capacity_;
+	coeffs_ = new float[capacity_];
+	for (int i = 0; i < capacity_; i++)
+		coeffs_[i] = poly.coeffs_[i];
 }
 
-/* 소멸자 */
-Polynomial::~Polynomial() {
-    if (coeffs_)
-        delete[] coeffs_;
+Polynomial::~Polynomial()
+{
+	if (coeffs_) delete[] coeffs_;
 }
 
-/* 최대차수 반환 */
-int Polynomial::MaxDegree() { return this->capacity_ - 1; }
-
-/* 새로운 항 추가 */
-void Polynomial::NewTerm(const float coef, const int exp) {
-    assert(exp < capacity_); // exp가 너무 크면 resize 하도록 구현할 수도 있음
-
-    // REVIEW:
-    this->coeffs_[exp] = coef;
+int Polynomial::MaxDegree()
+{
+	return this->capacity_ - 1;
 }
 
-/* 덧셈 연산 */
-Polynomial Polynomial::Add(const Polynomial &poly) {
-    assert(poly.capacity_ == this->capacity_); // 문제를 단순화하기 위한 가정
+void Polynomial::NewTerm(const float coef, const int exp)
+{
+	assert(exp < capacity_); // exp가 너무 크면 resize 하도록 구현할 수도 있음
 
-    Polynomial temp(this->MaxDegree());
-
-    // REVIEW:
-    for (int i = 0; i < temp.capacity_; i++) {
-        temp.coeffs_[i] = this->coeffs_[i] + poly.coeffs_[i];
-    }
-    return temp;
+	// TODO: 쉬워요
 }
 
-/* 곱셈 연산 */
-Polynomial Polynomial::Mult(const Polynomial &poly) {
-    assert(poly.capacity_ == this->capacity_); // 문제를 단순화하기 위한 가정
+Polynomial Polynomial::Add(const Polynomial& poly)
+{
+	assert(poly.capacity_ == this->capacity_); // 문제를 단순화하기 위한 가정
 
-    // coeff_[i]가 0.0f가 아닌 경우에 대해서만 계산 (곱하면 0이 되기 때문)
+	Polynomial temp(this->MaxDegree());
 
-    Polynomial temp(this->MaxDegree());
+	// TODO:
 
-    // REVIEW:
-    for (int i = 0; i < this->capacity_; i++) {
-        if (this->coeffs_[i] == 0)
-            continue;
-        for (int j = 0; j < poly.capacity_; j++) {
-            if (poly.coeffs_[j] == 0)
-                continue;
-            temp.coeffs_[i + j] += poly.coeffs_[j] * this->coeffs_[i];
-        }
-    }
-
-    return temp;
+	return temp;
 }
 
-/* 값 평가 */
-float Polynomial::Eval(float x) {
-    float temp = 0.0f;
+Polynomial Polynomial::Mult(const Polynomial& poly)
+{
+	assert(poly.capacity_ == this->capacity_); // 문제를 단순화하기 위한 가정
 
-    // TODO:
-    // 힌트 std::powf(2.0f, float(3)); // 2.0f^3.0f = 8.0f (2.0f의 3.0f 제곱)
-    for(int i = 0; i < this->capacity_; i++){
-        temp += this->coeffs_[i] * powf(x, i);
-    }
+	// coeff_[i]가 0.0f가 아닌 경우에 대해서만 계산 (곱하면 0이 되기 때문)
 
-    return temp;
+	Polynomial temp(this->MaxDegree());
+
+	// TODO: 항상 인덱싱 오류 조심
+
+	return temp;
 }
 
-/* 다항식 출력 */
-void Polynomial::Print() {
-    bool is_first = true; // 더하기 출력시 확인용
+float Polynomial::Eval(float x)
+{
+	float temp = 0.0f;
 
-    for (int i = 0; i < capacity_; i++) {
-        if (coeffs_[i] != 0.0f) // 주의: 0이 아닌 항들만 출력
-        {
-            if (!is_first)
-                cout << " + "; // 첫 항이 아니라면 사이사이에 더하기 출력
+	// TODO:
+	// 힌트 std::powf(2.0f, float(3)); // 2.0f^3.0f = 8.0f (2.0f의 3.0f 제곱)
 
-            cout << coeffs_[i];
+	return temp;
+}
 
-            if (i != 0)
-                cout << "*" << "x^" << i;
+void Polynomial::Print()
+{
+	bool is_first = true; // 더하기 출력시 확인용
 
-            is_first = false;
-        }
-    }
+	for (int i = 0; i < capacity_; i++)
+	{
+		if (coeffs_[i] != 0.0f) // 주의: 0이 아닌 항들만 출력
+		{
+			if (!is_first)
+				cout << " + "; // 첫 항이 아니라면 사이사이에 더하기 출력
 
-    cout << endl;
+			cout << coeffs_[i];
+
+			if (i != 0) cout << "*" << "x^" << i;
+
+			is_first = false;
+		}
+	}
+
+	cout << endl;
 }
