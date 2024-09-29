@@ -13,11 +13,12 @@ int Sum(int *arr, int n) {
     return sum;
 }
 
-// REVIEW:
+// COMPLETE:
 int RecurSum(int *arr, int n) {
-    if (n == 0) // 종료조건
+    if (n == 0) { // 종료조건
         return 0;
-    return arr[n - 1] + RecurSum(arr, n - 1); // 재귀로직
+    }
+    return arr[n - 1] + RecurSum(arr, n - 1); // 점화식
 }
 
 int main() {

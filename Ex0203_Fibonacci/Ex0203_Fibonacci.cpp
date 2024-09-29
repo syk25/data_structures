@@ -6,35 +6,36 @@
 using namespace std;
 
 int Fibonacci(int n) {
-    if (n == 0)
-        return 0; // F0 = 0
-    else if (n == 1)
-        return 1; // F1 = 1
-    else {
-        int fn = 0;
-        int prev1 = 0;
-        int prev2 = 1;
-        // REVIEW: shift 개념을 활용해서 데이터를 옮기기 기억하기
-        int fm = 1;
-        for(int i = 0; i < n; i++){
-            int temp = fn;
-            fn = fn + fm;
-            fm = temp;
 
-            // shift!
-            prev1 = prev2;
-            prev2 = fn;
+    if (n == 0) {
+        return 0;
+    } else if (n == 1) {
+        return 1;
+    } else {
+        int fn = 0;
+        int temp = 1;
+        int fibo;
+
+        for (int i = 0; i < n -2; i++) {
+            fibo = fn + temp;
+            fn = temp;
+            temp = fibo;
         }
 
-        return fn;
+        return fibo;
     }
 }
 
-int RecurFibonacci(int n) { 
-    if (n < 1) return 0; 
-    if (n < 3) return 1;
-    return RecurFibonacci(n-1) + RecurFibonacci(n-2);
+int RecurFibonacci(int n) {
+    if (n == 0) {
+        return 0;
     }
+    if (n == 1) {
+        return 1;
+    }
+
+    return RecurFibonacci(n - 1) + RecurFibonacci(n - 2);
+}
 
 int main() {
     // Input      : 0   1   2   3   4   5   6   7   8   9  10  11  12  13  14
