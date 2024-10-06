@@ -83,10 +83,10 @@ class Queue // Circular Queue
         T *temp = new T[new_capacity];
 
         if (front_ < rear_) {
-            memcpy(temp, queue_ + front_, Size() + 1);
+            memcpy(temp, queue_ + front_, sizeof(T) * (Size() + 1));
         } else {
-            memcpy(temp, queue_ + front_, capacity_ - front_);
-            memcpy(temp + capacity_ - front_, queue_, rear_ + 1);
+            memcpy(temp, queue_ + front_, sizeof(T) * (capacity_ - front_));
+            memcpy(temp + capacity_ - front_, queue_, sizeof(T) * (rear_ + 1));
         }
 
         delete[] queue_;
@@ -100,7 +100,6 @@ class Queue // Circular Queue
     {
         if (IsFull())
             Resize();
-
         // REVIEW
         rear_ = (rear_ + 1) % capacity_;
         queue_[rear_] = item;

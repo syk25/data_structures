@@ -18,9 +18,9 @@ int main() {
     q.Print();
 
     q.Enqueue('C');
+    q.Print();
 
     q.Enqueue('D');
-    q.Print();
     q.Print();
 
     q.Dequeue();
@@ -36,7 +36,6 @@ int main() {
         q.Enqueue(c);
         q.Print();
     }
-    
 
     return 0;
 }
