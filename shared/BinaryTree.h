@@ -170,14 +170,16 @@ template <typename T> class BinaryTree {
         Node *current = root_;
         while (current || !s.IsEmpty()) {
             // TODO:
-            if (current->right)
-                s.Push(current->right);
-            s.Push(current);
-            if (current->left)
-                s.Push(current->left);
+            while (current) {
+                s.Push(current);
+                current = current->left;
+            }
+
             current = s.Top();
-            Visit(current);
             s.Pop();
+
+            Visit(current);
+            current = current->right;
         }
     }
 
@@ -190,10 +192,24 @@ template <typename T> class BinaryTree {
 
         while (!s1.IsEmpty()) {
             // TODO:
+            Node *node = s1.Top();
+            s1.Pop();
+
+            s2.Push(node);
+
+            if (node->left) {
+                s1.Push(node->left);
+            }
+            if (node->right) {
+                s1.Push(node->right);
+            }
         }
 
         while (!s2.IsEmpty()) {
             // TODO:
+            Node *node = s2.Top();
+            s2.Pop();
+            Visit(node);
         }
     }
 

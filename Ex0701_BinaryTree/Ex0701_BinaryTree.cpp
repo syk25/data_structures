@@ -69,7 +69,6 @@ int main() {
     cout << "Iterative Inorder" << endl; // 1 3 2 6 5 4
     tree.IterInorder();
     cout << endl;
-    exit(-1);
 
     cout << "Iterative Postorder" << endl; // 3 1 2 4 5 6
     tree.IterPostorder();
