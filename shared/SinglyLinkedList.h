@@ -3,238 +3,187 @@
 #include <cassert>
 #include <stdint.h>
 
-template <typename T> class SinglyLinkedList {
-  public:
-    struct Node {
-        T item = T();
-        Node *next = nullptr;
-    };
+template<typename T>
+class SinglyLinkedList
+{
+public:
+	struct Node
+	{
+		T item = T();
+		Node* next = nullptr;
+	};
 
-    SinglyLinkedList() {}
+	SinglyLinkedList()
+	{
+	}
 
-    SinglyLinkedList(const SinglyLinkedList &list) {
-        // REVIEW 연결 리스트 복사
-        Node *current = list.first_;
+	SinglyLinkedList(const SinglyLinkedList& list)
+	{
+		// TODO: 연결 리스트 복사
+	}
 
-        while (current) {
-            this->PushBack(current->item);
-            current = current->next;
-        }
-    }
+	~SinglyLinkedList()
+	{
+		Clear();
+	}
 
-    ~SinglyLinkedList() { Clear(); }
+	void Clear() // 모두 지워야(delete) 합니다.
+	{
+		// TODO: 모두 삭제
+	}
 
-    void Clear() // 모두 지워야(delete) 합니다.
-    {
-        // REVIEW 모두 삭제
-        Node *current = first_;
+	bool IsEmpty()
+	{
+		return first_ == nullptr;
+	}
 
-        while (current) {
-            Node *temp = current->next;
-            delete current;
-            current = temp;
-        }
-    }
+	int Size()
+	{
+		int size = 0;
 
-    bool IsEmpty() { return first_ == nullptr; }
+		// TODO: size를 하나하나 세어서 반환
 
-    int Size() {
-        int size = 0;
+		return size;
+	}
 
-        // REVIEW size를 하나하나 세어서 반환
-        Node *current = first_;
+	T Front()
+	{
+		assert(first_);
 
-        while (current) {
-            size += 1;
-            current = current->next;
-        }
+		return T(); // TODO: 수정
+	}
 
-        return size;
-    }
+	T Back()
+	{
+		assert(first_);
 
-    T Front() {
-        assert(first_);
-        // REVIEW 수정
-        return first_->item;
-    }
+		return T(); // TODO: 수정
+	}
 
-    T Back() {
-        assert(first_);
+	Node* Find(T item)
+	{
+		// TODO: item이 동일한 노드 포인터 반환
 
-        // REVIEW
+		return nullptr;
+	}
 
-        Node *current = first_;
-        while (current->next) {
-            current = current->next;
-        }
+	void InsertBack(Node* node, T item)
+	{
+		// TODO:
+	}
 
-        return current->item;
-    }
+	void Remove(Node* n)
+	{
+		assert(first_);
 
-    Node *Find(T item) {
-        // REVIEW item이 동일한 노드 포인터 반환
-        Node *current = first_;
-        while (current) {
-            if (current->item == item) {
-                break;
-            }
-            current = current->next;
-        }
+		// 하나 앞의 노드를 찾아야 합니다.
+		// TODO:
+	}
 
-        return current;
-    }
+	void PushFront(T item)
+	{
+		// first_가 nullptr인 경우와 아닌 경우 나눠서 생각해보기 (결국은 두 경우를 하나로 합칠 수 있음)
 
-    void InsertBack(Node *node, T item) {
-        // REVIEW
-        Node *temp = new Node;
-        temp->item = item;
-        temp->next = node->next;
-        node->next = temp;
-    }
+		// 새로운 노드 만들기
+		// TODO:
 
-    void Remove(Node *n) {
-        assert(first_);
+		// 연결 관계 정리
+		// TODO:
+	}
 
-        // 하나 앞의 노드를 찾아야 합니다.
-        // REVIEW
-        Node *prev = nullptr;
-        Node *current = first_;
-        while (current) {
-            if (current == n) {
-                break;
-            }
-            prev = current;
-            current = current->next;
-        }
-        prev->next = current->next;
-        delete current;
-    }
+	void PushBack(T item)
+	{
+		if (first_)
+		{
+			// TODO:
+		}
+		else
+		{
+			// TODO:
+		}
+	}
 
-    void PushFront(T item) {
-        // first_가 nullptr인 경우와 아닌 경우 나눠서 생각해보기 (결국은 두 경우를 하나로 합칠 수 있음)
+	void PopFront()
+	{
+		if (IsEmpty())
+		{
+			using namespace std;
+			cout << "Nothing to Pop in PopFront()" << endl;
+			return;
+		}
 
-        // 새로운 노드 만들기
-        // REVIEW
-        Node *temp = new Node;
-        temp->item = item;
-        temp->next = first_;
+		assert(first_);
 
-        // 연결 관계 정리
-        // REVIEW
-        first_ = temp;
-    }
+		// TODO: 메모리 삭제
+	}
 
-    void PushBack(T item) {
-        Node *temp = new Node;
-        temp->item = item;
-        if (first_) {
-            // REVIEW
-            Node *current = first_;
-            while (current->next) {
-                current = current->next;
-            }
-            current->next = temp;
-        } else {
-            // REVIEW
-            first_ = temp;
-            first_->next = nullptr;
-        }
-    }
+	void PopBack()
+	{
+		if (IsEmpty())
+		{
+			using namespace std;
+			cout << "Nothing to Pop in PopBack()" << endl;
+			return;
+		}
 
-    void PopFront() {
-        if (IsEmpty()) {
-            using namespace std;
-            cout << "Nothing to Pop in PopFront()" << endl;
-            return;
-        }
+		// 맨 뒤에서 하나 앞의 노드를 찾아야 합니다.
 
-        assert(first_);
+		assert(first_);
 
-        // REVIEW 메모리 삭제
-        Node *current = first_;
-        first_ = current->next;
-        delete current;
-    }
+		// TODO: 메모리 삭제
+	}
 
-    void PopBack() {
-        if (IsEmpty()) {
-            using namespace std;
-            cout << "Nothing to Pop in PopBack()" << endl;
-            return;
-        }
+	void Reverse()
+	{
+		// TODO: 
+	}
 
-        // 맨 뒤에서 하나 앞의 노드를 찾아야 합니다.
+	void SetPrintDebug(bool flag)
+	{
+		print_debug_ = flag;
+	}
 
-        assert(first_);
+	void Print()
+	{
+		using namespace std;
 
-        // REVIEW 메모리 삭제
+		Node* current = first_;
 
-        Node *prev = nullptr;
-        Node *current = first_;
-        Node *next = current->next;
+		if (IsEmpty())
+			cout << "Empty" << endl;
+		else
+		{
+			cout << "Size = " << Size() << " ";
 
-        while (next) {
-            prev = current;
-            current = next;
-            next = current->next;
-        }
-        prev->next = nullptr;
-        delete current;
-    }
+			while (current)
+			{
+				if (print_debug_)
+				{
+					//cout << "[" << current << ", " << current->item << ", " << current->next << "]";
 
-    void Reverse() {
-        // REVIEW
+					// 주소를 짧은 정수로 출력 (앞 부분은 대부분 동일하기때문에 뒷부분만 출력)
+					cout << "[" << reinterpret_cast<uintptr_t>(current) % 100000 << ", "
+						<< current->item << ", "
+						<< reinterpret_cast<uintptr_t>(current->next) % 100000 << "]";
+				}
+				else
+				{
+					cout << current->item;
+				}
 
-        Node *prev = nullptr;
-        Node *current = first_;
-        Node *next = current->next;
+				if (current->next)
+					cout << " -> ";
+				else
+					cout << " -> NULL";
 
-        while (next) {
-            current->next = prev;
-            prev = current;
-            current = next;
-            next = current->next;
-        }
-        current->next = prev;
-        first_ = current;
-    }
+				current = current->next;
+			}
+			cout << endl;
+		}
+	}
 
-    void SetPrintDebug(bool flag) { print_debug_ = flag; }
+protected:
+	Node* first_ = nullptr;
 
-    void Print() {
-        using namespace std;
-
-        Node *current = first_;
-
-        if (IsEmpty())
-            cout << "Empty" << endl;
-        else {
-            cout << "Size = " << Size() << " ";
-
-            while (current) {
-                if (print_debug_) {
-                    // cout << "[" << current << ", " << current->item << ", " << current->next << "]";
-
-                    // 주소를 짧은 정수로 출력 (앞 부분은 대부분 동일하기때문에 뒷부분만 출력)
-                    cout << "[" << reinterpret_cast<uintptr_t>(current) % 100000 << ", " << current->item << ", "
-                         << reinterpret_cast<uintptr_t>(current->next) % 100000 << "]";
-                } else {
-                    cout << current->item;
-                }
-
-                if (current->next)
-                    cout << " -> ";
-                else
-                    cout << " -> NULL";
-
-                current = current->next;
-            }
-            cout << endl;
-        }
-    }
-
-  protected:
-    Node *first_ = nullptr;
-
-    bool print_debug_ = false;
+	bool print_debug_ = false;
 };
