@@ -53,94 +53,88 @@ template <typename T> class BinaryTree {
 
     int Sum() { return Sum(root_); }
 
+    // REVIEW
     int Sum(Node *node) {
         if (!node) {
             return 0;
         }
-
-        return Sum(node->left) + Sum(node->right) + node->item;
+        return node->item + Sum(node->left) + Sum(node->right);
     }
 
     int Height() { return Height(root_); }
 
-    // REVIEW:
+    // REVIEW
     int Height(Node *node) {
         if (!node) {
-            return 1;
+            return 0;
         }
-        return std::max(Height(node->left), Height(node->right) + 1);
+        return 1 + std::max(Height(node->left), Height(node->right));
     }
 
     ~BinaryTree() { DeleteTree(root_); }
 
+    // REVIEW: 힌트 Post-order
     void DeleteTree(Node *node) {
         if (node) {
-            // REVIEW: 힌트 Post-order
-
-            if (!node) {
-                return;
-            }
             DeleteTree(node->left);
             DeleteTree(node->right);
             delete node;
         }
     }
 
+    // REVIEW
     void Preorder() { Preorder(root_); }
     void Preorder(Node *node) {
-        // REVIEW:
         if (!node) {
             return;
         }
-
-        std::cout << node->item << " ";
+        // 우선순위 검사하기
+        Visit(node);
+        // 탐색하기
         Preorder(node->left);
         Preorder(node->right);
     };
 
     void Inorder() { Inorder(root_); }
     void Inorder(Node *node) {
-        // REVIEW:
-
-        if (!node) {
-            return;
-        }
-
-        Inorder(node->left);
-        std::cout << node->item << " ";
-        Inorder(node->right);
-    }
-
-    void Postorder() { Postorder(root_); }
-    void Postorder(Node *node) {
         // REVIEW
         if (!node) {
             return;
         }
+        Inorder(node->left);
+        Visit(node);
+        Inorder(node->right);
+    }
+    // REVIEW
+    void Postorder() { Postorder(root_); }
+    void Postorder(Node *node) {
+        if (!node)
+            return;
         Postorder(node->left);
         Postorder(node->right);
-        std::cout << node->item << " ";
+        Visit(node);
     }
+
+    // REVIEW
     void LevelOrder() {
         Queue<Node *> q; // 힌트: MyQueue q;
         Node *current = root_;
-        while (current) {
-            // REVIEW
 
+        while (current) {
             Visit(current);
             if (current->left)
                 q.Enqueue(current->left);
             if (current->right)
                 q.Enqueue(current->right);
-
-            if (q.IsEmpty())
+            if (q.IsEmpty()) {
                 return;
-
+            }
             current = q.Front();
             q.Dequeue();
         }
     }
 
+    // REVIEW:
     void IterPreorder() {
         if (!root_)
             return;
@@ -149,18 +143,17 @@ template <typename T> class BinaryTree {
         s.Push(root_);
 
         while (!s.IsEmpty()) {
-            // REVIEW
-            Node *current = s.Top();
-
-            Visit(current);
+            Node *node = s.Top();
             s.Pop();
-            if (current->right)
-                s.Push(current->right);
-            if (current->left)
-                s.Push(current->left);
+            Visit(node);
+            if (node->right)
+                s.Push(node->right);
+            if (node->left)
+                s.Push(node->left);
         }
     }
 
+    // TODO
     void IterInorder() {
         if (!root_)
             return;
@@ -169,16 +162,19 @@ template <typename T> class BinaryTree {
 
         Node *current = root_;
         while (current || !s.IsEmpty()) {
-            // TODO:
+
+            // 현재노드 기준 왼쪽 자식 노드들을 모두 스택에 넣기
             while (current) {
                 s.Push(current);
                 current = current->left;
             }
 
+            // 가장 마지막 왼쪽 자식노드 방문
             current = s.Top();
             s.Pop();
-
             Visit(current);
+
+            // 가장 마지막 노드가 오른쪽 노드가 있는 경우에 갱신
             current = current->right;
         }
     }
@@ -195,11 +191,13 @@ template <typename T> class BinaryTree {
             Node *node = s1.Top();
             s1.Pop();
 
-            s2.Push(node);
+            s2.Push(node); // 현재 노드를 스택에 넣기
 
+            // 왼쪽 자식이 있는 경우 첫번째 스택에 넣기
             if (node->left) {
                 s1.Push(node->left);
             }
+            // 오른쪽 자식이 있는 경우에 두번째 스택에 넣기
             if (node->right) {
                 s1.Push(node->right);
             }
@@ -209,6 +207,7 @@ template <typename T> class BinaryTree {
             // TODO:
             Node *node = s2.Top();
             s2.Pop();
+
             Visit(node);
         }
     }
